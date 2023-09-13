@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import LoginCard from "@/compontents/login-card";
 
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
@@ -68,19 +69,11 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-black h-[1080px] text-orange-400">
+    <main className="bg-blue-950 h-[1080px] text-orange-400">
       <div className="App">
-        <header className="App-header">
+        <header className="App-header flex justify-center">
           <h1>Spotify React</h1>
-          {!token ? (
-            <a
-              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-            >
-              Login to Spotify
-            </a>
-          ) : (
-            <button onClick={logout}>Logout</button>
-          )}
+          {!token ? <LoginCard /> : <button onClick={logout}>Logout</button>}
         </header>
         <form onSubmit={searchArtists}>
           <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
