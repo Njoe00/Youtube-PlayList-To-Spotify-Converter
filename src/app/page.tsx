@@ -1,15 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Playlist from "./playlist/page";
 
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
   const REDIRECT_URI = "http://localhost:3000";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
+  const SCOPE = "playlist-modify-private";
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
   const [artists, setArtists] = useState([]);
+  const [userId, setuserId] = useState("");
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -51,7 +54,16 @@ export default function Home() {
       },
     });
     setArtists(data.artists.items);
-    console.log(data);
+  };
+
+  const getUserId = async (e: any) => {
+    e.preventDefault();
+    const { data } = await axios.get("https://api.spotify.com/v1/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setuserId(data.id);
   };
 
   const renderArtists = () => {
@@ -74,7 +86,7 @@ export default function Home() {
           <h1>Spotify React</h1>
           {!token ? (
             <a
-              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
             >
               Login to Spotify
             </a>
@@ -86,8 +98,13 @@ export default function Home() {
           <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
           <button type={"submit"}>Search</button>
         </form>
+        <form onSubmit={getUserId}>
+          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
+          <button type={"submit"}>Search</button>
+        </form>
         {renderArtists()}
       </div>
+      <Playlist userId={userId} token={token} />
     </main>
   );
 }
