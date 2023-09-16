@@ -92,7 +92,7 @@ export default function Home() {
     return artists.map((artist) => (
       <div key={artist.id}>
         {artist.images.length ? (
-          <img width={"100%"} src={artist.images[0].url} alt="" />
+          <img width={"20%"} src={artist.images[0].url} alt="" />
         ) : (
           <div>No Image</div>
         )}
