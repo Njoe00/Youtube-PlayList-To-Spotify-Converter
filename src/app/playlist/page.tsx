@@ -1,32 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
-// const [playlist, setPlaylist] = useState([]);
+export default function Playlist({ token }: { token: string | null }) {
+  const [playlistName, setPlaylistName] = useState("");
 
-export default function Playlist({
-  userId,
-  token,
-}: {
-  userId: string;
-  token: string;
-}) {
-  console.log("userId", userId, "token", token);
-  const createPlaylist = async (userId: string, token: string) => {
-    const { data } = await axios.post(
-      `https://api.spotify.com/v1/users/${userId}/playlists`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+  const createPlaylist = async () => {
+    try {
+      const response = await axios.post(
+        "https://api.spotify.com/v1/me/playlists",
+        {
+          name: playlistName,
         },
-        data: {
-          name: "New Playlist",
-          description: "New playlist description",
-          public: false,
-        },
-      }
-    );
-    console.log("line 25", data);
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Playlist created:", response.data);
+    } catch (error) {
+      console.error("Error creating playlist:", error);
+    }
   };
-  return <div></div>;
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Playlist Name"
+        value={playlistName}
+        onChange={(e) => setPlaylistName(e.target.value)}
+      />
+      <button onClick={createPlaylist}>Create Playlist</button>
+    </div>
+  );
 }

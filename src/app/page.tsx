@@ -8,7 +8,7 @@ export default function Home() {
   const REDIRECT_URI = "http://localhost:3000";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
-  const SCOPE = "playlist-modify-private";
+  const SCOPE = "playlist-modify-private playlist-modify-public";
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
   const [artists, setArtists] = useState([]);
@@ -70,7 +70,7 @@ export default function Home() {
     return artists.map((artist) => (
       <div key={artist.id}>
         {artist.images.length ? (
-          <img width={"100%"} src={artist.images[0].url} alt="" />
+          <img width={"20%"} src={artist.images[0].url} alt="" />
         ) : (
           <div>No Image</div>
         )}
@@ -104,7 +104,7 @@ export default function Home() {
         </form>
         {renderArtists()}
       </div>
-      <Playlist userId={userId} token={token} />
+      <Playlist token={token} />
     </main>
   );
 }
