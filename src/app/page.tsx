@@ -98,10 +98,6 @@ export default function Home() {
           <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
           <button type={"submit"}>Search</button>
         </form>
-        <form onSubmit={getUserId}>
-          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-          <button type={"submit"}>Search</button>
-        </form>
         {renderArtists()}
       </div>
       <Playlist token={token} />
