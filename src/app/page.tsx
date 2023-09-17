@@ -69,21 +69,24 @@ export default function Home() {
 
   const searchItems = async (e: any) => {
     e.preventDefault();
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        q: searchKey,
-        type: "track",
-      },
-    });
-
-    console.log("song searched for", response.data) {
-    } catch {
-      console.log("error occured", error.response.data)
+    try {
+      const { data } = await axios.get("https://api.spotify.com/v1/search", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          q: searchKey,
+          type: "track",
+        },
+      });
+      if (data.tracks.items <= 0) {
+        return console.log(`Couldn't find "${searchKey}"`);
+      }
+      setItemSearch(data.tracks.items);
+      console.log("song query succesful:", data);
+    } catch (error) {
+      console.error("Error finding tracks:", error);
     }
-    setItemSearch(data.tracks.items);
   };
 
   const renderTracks = () => {
@@ -93,7 +96,6 @@ export default function Home() {
           <>
             <img alt="" width={"25%"} src={data.album.images[0].url} />
             {data.name}
-            {console.log("hello")}
           </>
         ) : (
           <div> "No Songs Available"</div>
