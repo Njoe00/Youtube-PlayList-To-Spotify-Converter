@@ -10,6 +10,7 @@ export default function Home() {
   const RESPONSE_TYPE = "token";
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
+  const [itemSearch, setItemSearch] = useState([]);
   const [artists, setArtists] = useState([]);
 
   useEffect(() => {
@@ -58,11 +59,41 @@ export default function Home() {
     return artists.map((artist) => (
       <div key={artist.id}>
         {artist.images.length ? (
-          <img width={"100%"} src={artist.images[0].url} alt="" />
+          <img width={"25%"} src={artist.images[0].url} alt="" />
         ) : (
           <div>No Image</div>
         )}
         {artist.name}
+      </div>
+    ));
+  };
+
+  const searchItems = async (e: any) => {
+    e.preventDefault();
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        q: searchKey,
+        type: "track",
+      },
+    });
+    setItemSearch(data.tracks.items);
+  };
+
+  const renderTracks = () => {
+    return itemSearch.map((data, id) => (
+      <div className="text-orange-600 text-lg" key={id}>
+        {data ? (
+          <>
+            <img alt="" width={"25%"} src={data.album.images[0].url} />
+            {data.name}
+            {console.log("hello")}
+          </>
+        ) : (
+          <div> "No Songs Available"</div>
+        )}
       </div>
     ));
   };
@@ -88,6 +119,11 @@ export default function Home() {
           <button type={"submit"}>Search</button>
         </form>
         {renderArtists()}
+        <form onSubmit={searchItems}>
+          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
+          <button type={"submit"}>Search</button>
+        </form>
+        {renderTracks()}
       </div>
     </main>
   );
