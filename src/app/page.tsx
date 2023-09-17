@@ -81,6 +81,11 @@ export default function Home() {
         type: "track",
       },
     });
+
+    console.log("song searched for", response.data) {
+    } catch {
+      console.log("error occured", error.response.data)
+    }
     setItemSearch(data.tracks.items);
   };
 
