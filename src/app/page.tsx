@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
 import SearchAndRenderSongs from "@/components/searchAndRenderSongs";
+import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
 import Playlist from "./playlist/page";
 
 export default function Home() {
@@ -145,6 +146,7 @@ export default function Home() {
     <main className="bg-black h-[1080px] text-orange-400">
       <div className="App">
         <header className="App-header">
+          <YoutubePlaylistTitles />
           <h1>Spotify React</h1>
           {!token ? (
             <a
