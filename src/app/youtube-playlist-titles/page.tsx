@@ -23,15 +23,25 @@ export default function YoutubePlaylistTitles() {
         },
       })
       .then((response) => {
-        console.log("line 26", response.data.items);
         setVideos(response.data.items);
+        console.log("line 26", videos);
       })
       .catch((error) => {
         console.error("Error fetching YouTube data:", error);
       });
   };
   const renderVideos = () => {
-    return videos.map((video) => <li key={video.id}>{video.snippet.title}</li>);
+    return videos.map((video, id) => (
+      <li key={id}>
+        <img
+          src={video.snippet.thumbnails.high.url}
+          width={video.snippet.thumbnails.high.width}
+          height={video.snippet.thumbnails.high.height}
+          // alt={video.snippet.thumbnails.default.url}
+        />
+        {video.snippet.title}
+      </li>
+    ));
   };
 
   return (
@@ -41,7 +51,8 @@ export default function YoutubePlaylistTitles() {
         <input type="text" onChange={(e) => setSearchQuery(e.target.value)} />
         <button type={"submit"}>Search</button>
       </form>
-      <ul></ul>
+      <button onSubmit={renderVideos}>Click here</button>
+      {renderVideos()}
     </div>
   );
 }
