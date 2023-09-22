@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { stringify } from "querystring";
+import { split } from "postcss/lib/list";
 
 export default function YoutubePlaylistTitles() {
   const API_KEY = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
@@ -66,6 +68,18 @@ export default function YoutubePlaylistTitles() {
       });
   };
 
+  const urlSpitter = (e: string) => {
+    const breakpoint = /\list=/;
+    const splitUrl = e.split(breakpoint);
+    console.log(splitUrl[1]);
+    setPlayListId(splitUrl[1]);
+  };
+  const renderPlayListItems = () => {
+    playListItem.map((title, id) => {
+      return <li key={id}>{title.snippet.title}</li>;
+    });
+  };
+
   return (
     <div>
       <h1>YouTube Videos</h1>
@@ -80,6 +94,13 @@ export default function YoutubePlaylistTitles() {
         <input type="text" onChange={(e) => setPlayListId(e.target.value)} />
         <button type={"submit"}>Search</button>
       </form>
+      <button onClick={renderPlayListItems}>Click here for titles</button>
+      <h1>Playlist links</h1>
+      <form onSubmit={playListItems}>
+        <input type="text" onChange={(e) => urlSpitter(e.target.value)} />
+        <button type={"submit"}>Search</button>
+      </form>
+      <button onClick={renderPlayListItems}>Click here for titles</button>
     </div>
   );
 }
