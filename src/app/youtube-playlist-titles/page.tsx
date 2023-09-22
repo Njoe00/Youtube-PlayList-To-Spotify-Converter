@@ -9,8 +9,10 @@ export default function YoutubePlaylistTitles() {
   const AUTH_ENDPOINT = "https://www.googleapis.com/auth/youtube.readonly";
   const REDIRECT_URI = "http://localhost:3000";
   const RESPONSE_TYPE = "token";
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [playListId, setPlayListId] = useState("");
+  const [playListItem, setPlayListItem] = useState<string[]>([]);
 
   const searchVideos = async (e: any) => {
     e.preventDefault();
@@ -37,11 +39,31 @@ export default function YoutubePlaylistTitles() {
           src={video.snippet.thumbnails.high.url}
           width={video.snippet.thumbnails.high.width}
           height={video.snippet.thumbnails.high.height}
-          // alt={video.snippet.thumbnails.default.url}
+          alt={video.snippet.thumbnails.default.url}
         />
         {video.snippet.title}
       </li>
     ));
+  };
+
+  const playListItems = async (e: any) => {
+    e.preventDefault();
+    await axios
+      .get("https://www.googleapis.com/youtube/v3/playlistItems", {
+        params: {
+          part: "snippet, contentDetails",
+          key: API_KEY,
+          maxResults: 100,
+          playlistId: playListId,
+        },
+      })
+      .then((response) => {
+        setPlayListItem(response.data.items);
+        console.log("line 26", playListItem);
+      })
+      .catch((error) => {
+        console.error("Error fetching YouTube data:", error);
+      });
   };
 
   return (
@@ -53,6 +75,13 @@ export default function YoutubePlaylistTitles() {
       </form>
       <button onSubmit={renderVideos}>Click here</button>
       {renderVideos()}
+      <h1>Playlist</h1>
+      <form onSubmit={playListItems}>
+        <input type="text" onChange={(e) => setPlayListId(e.target.value)} />
+        <button type={"submit"}>Search</button>
+      </form>
     </div>
   );
 }
+// https://www.youtube.com/watch?v=RmibkOh25uY&list=RDRmibkOh25uY
+// https://www.youtube.com/watch?v=BeI6an1Fy6E&list=PLiGWrTQCFDq0bIFXWanR1xEtU872w05f8
