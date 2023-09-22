@@ -65,7 +65,6 @@ export default function YoutubePlaylistTitles() {
         },
       })
       .then((response) => {
-        console.log("line 26", response.data.items);
         setVideos(response.data.items);
 >>>>>>> d0988e0 (adding mergine conflicts for main file import)
       })
