@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
 
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
@@ -51,7 +52,6 @@ export default function Home() {
       },
     });
     setArtists(data.artists.items);
-    console.log(data);
   };
 
   const renderArtists = () => {
@@ -71,6 +71,7 @@ export default function Home() {
     <main className="bg-black h-[1080px] text-orange-400">
       <div className="App">
         <header className="App-header">
+          <YoutubePlaylistTitles />
           <h1>Spotify React</h1>
           {!token ? (
             <a
