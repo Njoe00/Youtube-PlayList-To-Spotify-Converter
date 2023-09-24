@@ -42,8 +42,6 @@ export default function YoutubePlaylistTitles() {
 =======
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { stringify } from "querystring";
-import { split } from "postcss/lib/list";
 
 export default function YoutubePlaylistTitles() {
   const API_KEY = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
@@ -53,8 +51,6 @@ export default function YoutubePlaylistTitles() {
   const AUTH_ENDPOINT = "https://www.googleapis.com/auth/youtube.readonly";
   const REDIRECT_URI = "http://localhost:3000";
   const RESPONSE_TYPE = "token";
-  const [videos, setVideos] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
   const [playListId, setPlayListId] = useState("");
   const [playListItem, setPlayListItem] = useState<string[]>([]);
 
@@ -137,5 +133,3 @@ export default function YoutubePlaylistTitles() {
     </div>
   );
 }
-// https://www.youtube.com/watch?v=RmibkOh25uY&list=RDRmibkOh25uY
-// https://www.youtube.com/watch?v=BeI6an1Fy6E&list=PLiGWrTQCFDq0bIFXWanR1xEtU872w05f8
