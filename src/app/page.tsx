@@ -1,6 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
+import SearchAndRenderArtists from "../components/searchAndRenderArtists";
+
+type spotifyDataObj = {
+  album: { images: [{ url: string }] };
+  artists: [];
+  available_markets: [];
+  disc_number: number;
+  duration: number;
+  explicit: boolean;
+  external_ids: object;
+  href: string;
+  id: number;
+  is_local: boolean;
+  name: string;
+  popularity: number;
+  preview_url: null;
+  track_number: number;
+  type: string;
+  uri: string;
+};
 import Playlist from "./playlist/page";
 
 export default function Home() {
@@ -11,8 +32,8 @@ export default function Home() {
   const SCOPE = "playlist-modify-private playlist-modify-public";
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
-  const [itemSearch, setItemSearch] = useState([]);
-  const [artists, setArtists] = useState([]);
+  const [itemSearch, setItemSearch] = useState<string | any>([]);
+  const [artists, setArtists] = useState<any>([]);
   const [tracks, setTracks] = useState("");
 
   useEffect(() => {
@@ -108,10 +129,11 @@ export default function Home() {
   };
 
   const renderTracks = () => {
-    return itemSearch.map((data, id) => (
+    return itemSearch.map((data: spotifyDataObj, id: number) => (
       <div className="text-orange-600 text-lg" key={id}>
         {data ? (
           <>
+            {console.log(data)}
             <img alt="" width={"25%"} src={data.album.images[0].url} />
             {data.name}
           </>
@@ -137,15 +159,13 @@ export default function Home() {
             <button onClick={logout}>Logout</button>
           )}
         </header>
-        <form onSubmit={searchTracks}>
-          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-          <button type={"submit"}>Search Tracks</button>
-        </form>
-        <form onSubmit={searchArtists}>
-          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-          <button type={"submit"}>Search Artists</button>
-        </form>
-        {renderArtists()}
+        <SearchAndRenderArtists
+          setArtists={setArtists}
+          setSearchKey={setSearchKey}
+          token={token}
+          searchKey={searchKey}
+          artists={artists}
+        />
         <form onSubmit={searchItems}>
           <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
           <button type={"submit"}>Search</button>
