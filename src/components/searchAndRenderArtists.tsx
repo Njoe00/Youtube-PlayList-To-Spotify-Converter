@@ -1,6 +1,11 @@
 import React from "react";
 import axios from "axios";
 
+type artistDataObj = {
+  images: [{ url: string }];
+  name: string;
+};
+
 export default function SearchAndRenderArtists({
   setArtists,
   setSearchKey,
@@ -29,8 +34,8 @@ export default function SearchAndRenderArtists({
   };
 
   const renderArtists = () => {
-    return artists.map((artist) => (
-      <div key={artist.id}>
+    return artists.map((artist: artistDataObj, id: number) => (
+      <div key={id}>
         {artist.images.length ? (
           <img width={"25%"} src={artist.images[0].url} alt="" />
         ) : (
