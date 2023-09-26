@@ -4,25 +4,7 @@ import axios from "axios";
 import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
 
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
-
-type spotifyDataObj = {
-  album: { images: [{ url: string }] };
-  artists: [];
-  available_markets: [];
-  disc_number: number;
-  duration: number;
-  explicit: boolean;
-  external_ids: object;
-  href: string;
-  id: number;
-  is_local: boolean;
-  name: string;
-  popularity: number;
-  preview_url: null;
-  track_number: number;
-  type: string;
-  uri: string;
-};
+import SearchAndRenderSongs from "@/components/searchAndRenderSongs";
 
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
@@ -62,44 +44,6 @@ export default function Home() {
     window.localStorage.removeItem("token");
   };
 
-  const searchItems = async (e: any) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.get("https://api.spotify.com/v1/search", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          q: searchKey,
-          type: "track",
-        },
-      });
-      if (data.tracks.items <= 0) {
-        return console.log(`Couldn't find "${searchKey}"`);
-      }
-      setItemSearch(data.tracks.items);
-      console.log("song query succesful:", data);
-    } catch (error) {
-      console.error("Error finding tracks:", error);
-    }
-  };
-
-  const renderTracks = () => {
-    return itemSearch.map((data: spotifyDataObj, id: number) => (
-      <div className="text-orange-600 text-lg" key={id}>
-        {data ? (
-          <>
-            {console.log(data)}
-            <img alt="" width={"25%"} src={data.album.images[0].url} />
-            {data.name}
-          </>
-        ) : (
-          <div> "No Songs Available"</div>
-        )}
-      </div>
-    ));
-  };
-
   return (
     <main className="bg-black h-[1080px] text-orange-400">
       <div className="App">
@@ -123,11 +67,13 @@ export default function Home() {
           searchKey={searchKey}
           artists={artists}
         />
-        <form onSubmit={searchItems}>
-          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-          <button type={"submit"}>Search</button>
-        </form>
-        {renderTracks()}
+        <SearchAndRenderSongs
+          itemSearch={itemSearch}
+          token={token}
+          searchKey={searchKey}
+          setSearchKey={setSearchKey}
+          setItemSearch={setItemSearch}
+        />
       </div>
     </main>
   );
