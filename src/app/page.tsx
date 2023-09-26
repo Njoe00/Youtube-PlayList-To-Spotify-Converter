@@ -1,27 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
-
-type spotifyDataObj = {
-  album: { images: [{ url: string }] };
-  artists: [];
-  available_markets: [];
-  disc_number: number;
-  duration: number;
-  explicit: boolean;
-  external_ids: object;
-  href: string;
-  id: number;
-  is_local: boolean;
-  name: string;
-  popularity: number;
-  preview_url: null;
-  track_number: number;
-  type: string;
-  uri: string;
-};
+import SearchAndRenderSongs from "@/components/searchAndRenderSongs";
 import Playlist from "./playlist/page";
 
 export default function Home() {
@@ -166,10 +147,13 @@ export default function Home() {
           searchKey={searchKey}
           artists={artists}
         />
-        <form onSubmit={searchItems}>
-          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-          <button type={"submit"}>Search</button>
-        </form>
+        <SearchAndRenderSongs
+          itemSearch={itemSearch}
+          token={token}
+          searchKey={searchKey}
+          setSearchKey={setSearchKey}
+          setItemSearch={setItemSearch}
+        />
       </div>
       <Playlist token={token} tracks={tracks} />
     </main>
