@@ -3,6 +3,8 @@ import axios from "axios";
 
 export default function Playlist({ token }: { token: string | null }) {
   const [playlistName, setPlaylistName] = useState("");
+  const [trackName, setTrackName] = useState("");
+  const [playlistId, setPlaylistId] = useState("");
 
   const createPlaylist = async () => {
     try {
@@ -18,8 +20,27 @@ export default function Playlist({ token }: { token: string | null }) {
           },
         }
       );
-
+      setPlaylistId(response.data.id);
       console.log("Playlist created:", response.data);
+    } catch (error) {
+      console.error("Error creating playlist:", error);
+    }
+  };
+
+  const addTracksToPlaylist = async () => {
+    try {
+      const response = await axios.post(
+        `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+        { uris: [trackName] },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Songs added:", response);
     } catch (error) {
       console.error("Error creating playlist:", error);
     }
@@ -34,6 +55,15 @@ export default function Playlist({ token }: { token: string | null }) {
         onChange={(e) => setPlaylistName(e.target.value)}
       />
       <button onClick={createPlaylist}>Create Playlist</button>
+      <div>
+        <input
+          type="text"
+          placeholder="Tracks"
+          value={trackName}
+          onChange={(e) => setTrackName(e.target.value)}
+        />
+        <button onClick={addTracksToPlaylist}>Add tracks</button>
+      </div>
     </div>
   );
 }
