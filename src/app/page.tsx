@@ -12,7 +12,7 @@ export default function Home() {
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
   const [artists, setArtists] = useState([]);
-  const [userId, setuserId] = useState("");
+  const [tracks, setTracks] = useState("");
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -56,14 +56,19 @@ export default function Home() {
     setArtists(data.artists.items);
   };
 
-  const getUserId = async (e: any) => {
+  const searchTracks = async (e: any) => {
     e.preventDefault();
-    const { data } = await axios.get("https://api.spotify.com/v1/me", {
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params: {
+        q: searchKey,
+        type: "track",
+      },
     });
-    setuserId(data.id);
+    setTracks(data.tracks.items[0].uri);
+    console.log(tracks);
   };
 
   const renderArtists = () => {
@@ -94,6 +99,10 @@ export default function Home() {
             <button onClick={logout}>Logout</button>
           )}
         </header>
+        <form onSubmit={searchTracks}>
+          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
+          <button type={"submit"}>Search</button>
+        </form>
         <form onSubmit={searchArtists}>
           <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
           <button type={"submit"}>Search</button>
