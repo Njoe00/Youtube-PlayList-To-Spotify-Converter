@@ -3,12 +3,7 @@ import axios from "axios";
 
 export default function YoutubePlaylistTitles() {
   const API_KEY = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
-  const CLIENT_ID =
-    "682640392367-ncgk3k797rt7ihtacadp3kb3h705k5cs.apps.googleusercontent.com";
-  const CLIENT_ID_SECRET = "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";
-  const AUTH_ENDPOINT = "https://www.googleapis.com/auth/youtube.readonly";
-  const REDIRECT_URI = "http://localhost:3000";
-  const RESPONSE_TYPE = "token";
+
   const [playListId, setPlayListId] = useState("");
   const [playListItem, setPlayListItem] = useState<string[]>([]);
 
