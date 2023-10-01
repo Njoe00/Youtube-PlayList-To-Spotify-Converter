@@ -37,7 +37,7 @@ export default function Playlist({
     try {
       const response = await axios.post(
         `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-        { uris: [trackName] },
+        { uris: [tracks] },
         {
           headers: {
             Authorization: `Bearer ${token}`,

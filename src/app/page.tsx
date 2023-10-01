@@ -136,8 +136,13 @@ export default function Home() {
         </header>
         <form onSubmit={searchTracks}>
           <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-          <button type={"submit"}>Search</button>
+          <button type={"submit"}>Search Tracks</button>
         </form>
+        <form onSubmit={searchArtists}>
+          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
+          <button type={"submit"}>Search Artists</button>
+        </form>
+        {renderArtists()}
         <button onClick={setTrackQuery}>Click here to pass tracks</button>
 
         <SearchAndRenderSongs
