@@ -20,7 +20,8 @@ export default function YoutubePlaylistTitles() {
       })
       .then((response) => {
         setPlayListItem(response.data.items);
-        console.log("line 26", playListItem);
+        console.log("line 26", playListItem[0].snippet.title);
+        storeYoutubeTitles();
       })
       .catch((error) => {
         console.error("Error fetching YouTube data:", error);
@@ -30,7 +31,6 @@ export default function YoutubePlaylistTitles() {
   const urlSpitter = (e: string) => {
     const breakpoint = /\list=/;
     const splitUrl = e.split(breakpoint);
-    console.log(splitUrl[1]);
     setPlayListId(splitUrl[1]);
   };
   const renderPlayListItems = () => {
@@ -45,6 +45,14 @@ export default function YoutubePlaylistTitles() {
         />
       </li>
     ));
+  };
+
+  const storeYoutubeTitles = () => {
+    const youtubeTitlesArray = [];
+    for (let i = 0; i < playListItem.length; i++) {
+      youtubeTitlesArray.push(playListItem[i].snippet.title);
+    }
+    return youtubeTitlesArray;
   };
 
   return (
