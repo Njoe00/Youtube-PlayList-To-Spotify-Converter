@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function Playlist({ token }: { token: string | null }) {
+export default function Playlist({
+  token,
+  tracks,
+}: {
+  token: string | null;
+  tracks: string;
+}) {
   const [playlistName, setPlaylistName] = useState("");
   const [trackName, setTrackName] = useState("");
   const [playlistId, setPlaylistId] = useState("");
@@ -31,7 +37,7 @@ export default function Playlist({ token }: { token: string | null }) {
     try {
       const response = await axios.post(
         `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-        { uris: [trackName] },
+        { uris: [tracks] },
         {
           headers: {
             Authorization: `Bearer ${token}`,
