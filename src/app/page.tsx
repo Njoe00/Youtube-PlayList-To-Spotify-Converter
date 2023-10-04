@@ -14,7 +14,16 @@ export default function Home() {
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
   const [itemSearch, setItemSearch] = useState<string | any>([]);
-  const [artists, setArtists] = useState<any>([]);
+  const [artists, setArtists] = useState<string | any>([]);
+  const [trackUri, setTrackUri] = useState("");
+  const [tracksQuery, setTracksQuery] = useState<string>("");
+
+  const songsArray = [
+    "Ai Higuchi “Akuma no Ko” Anime Special Ver",
+    "RADWIMPS - Suzume feat. Toaka [Official Lyric Video]",
+    "070 Shake - Guilty Conscience (Official Video)",
+    "Mariya Takeuchi - Plastic Love (Official Music Video)",
+  ];
   const [tracks, setTracks] = useState("");
 
   useEffect(() => {
@@ -43,6 +52,14 @@ export default function Home() {
   const logout = () => {
     setToken("");
     window.localStorage.removeItem("token");
+  };
+
+  const setTrackQuery = async () => {
+    await Promise.allSettled(
+      songsArray.map(async (string) => {
+        await setTracksQuery((tracksQuery) => [...tracksQuery, string]);
+      })
+    );
   };
 
   const searchArtists = async (e: any) => {
@@ -140,6 +157,7 @@ export default function Home() {
             <button onClick={logout}>Logout</button>
           )}
         </header>
+        <button onClick={setTrackQuery}>Click here to pass tracks</button>
         <SearchAndRenderArtists
           setArtists={setArtists}
           setSearchKey={setSearchKey}
@@ -153,6 +171,10 @@ export default function Home() {
           searchKey={searchKey}
           setSearchKey={setSearchKey}
           setItemSearch={setItemSearch}
+          setTrackUri={setTrackUri}
+          trackUri={trackUri}
+          tracksQuery={tracksQuery}
+          songsArray={songsArray}
         />
       </div>
       <Playlist token={token} tracks={tracks} />
