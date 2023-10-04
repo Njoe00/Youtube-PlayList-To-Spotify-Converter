@@ -89,9 +89,6 @@ export default function Home() {
         />
         <SearchAndRenderSongs
           token={token}
-          searchKey={searchKey}
-          setSearchKey={setSearchKey}
-          setItemSearch={setItemSearch}
           setTrackUri={setTrackUri}
           trackUri={trackUri}
           tracksQuery={tracksQuery}
