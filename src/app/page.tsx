@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
-import SearchAndRenderSongs from "@/components/searchAndRenderSongs";
+import SearchAndRenderSongs from "../components/searchAndRenderSongs";
 
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
@@ -12,7 +12,16 @@ export default function Home() {
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
   const [itemSearch, setItemSearch] = useState<string | any>([]);
-  const [artists, setArtists] = useState<any>([]);
+  const [artists, setArtists] = useState<string | any>([]);
+  const [trackUri, setTrackUri] = useState("");
+  const [tracksQuery, setTracksQuery] = useState<string>("");
+
+  const songsArray = [
+    "Ai Higuchi “Akuma no Ko” Anime Special Ver",
+    "RADWIMPS - Suzume feat. Toaka [Official Lyric Video]",
+    "070 Shake - Guilty Conscience (Official Video)",
+    "Mariya Takeuchi - Plastic Love (Official Music Video)",
+  ];
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -42,6 +51,14 @@ export default function Home() {
     window.localStorage.removeItem("token");
   };
 
+  const setTrackQuery = async () => {
+    await Promise.allSettled(
+      songsArray.map(async (string) => {
+        await setTracksQuery((tracksQuery) => [...tracksQuery, string]);
+      })
+    );
+  };
+
   return (
     <main className="bg-black h-[1080px] text-orange-400">
       <div className="App">
@@ -57,6 +74,7 @@ export default function Home() {
             <button onClick={logout}>Logout</button>
           )}
         </header>
+        <button onClick={setTrackQuery}>Click here to pass tracks</button>
         <SearchAndRenderArtists
           setArtists={setArtists}
           setSearchKey={setSearchKey}
@@ -70,6 +88,10 @@ export default function Home() {
           searchKey={searchKey}
           setSearchKey={setSearchKey}
           setItemSearch={setItemSearch}
+          setTrackUri={setTrackUri}
+          trackUri={trackUri}
+          tracksQuery={tracksQuery}
+          songsArray={songsArray}
         />
       </div>
     </main>
