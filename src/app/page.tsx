@@ -54,7 +54,7 @@ export default function Home() {
   const setTrackQuery = async () => {
     await Promise.allSettled(
       songsArray.map(async (string) => {
-        await setTracksQuery((tracksQuery) => [...tracksQuery, string]);
+        setTracksQuery(string);
       })
     );
   };
