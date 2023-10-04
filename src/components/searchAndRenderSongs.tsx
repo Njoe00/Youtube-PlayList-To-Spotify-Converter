@@ -56,28 +56,5 @@ export default function searchAndRenderSongs({
     searchItems(songsArray);
   }, [tracksQuery]);
 
-  // const renderTracks = () => {
-  //   return itemSearch.map((data: spotifyTracksObj, id: number) => (
-  //     <div className="text-orange-600 text-lg" key={id}>
-  //       {data ? (
-  //         <>
-  //           <img alt="" width={"25%"} src={data.album.images[0].url} />
-  //           {data.name}
-  //         </>
-  //       ) : (
-  //         <div> "No Songs Available"</div>
-  //       )}
-  //     </div>
-  //   ));
-  // };
-  return (
-    <div>
-      {/* <button onClick={}>Click me to pass title arrays</button> */}
-      {/* <form onSubmit={searchItems}>
-        <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-        <button type={"submit"}>search tracks</button>
-      </form> */}
-      {/* {renderTracks()} */}
-    </div>
-  );
+  return <div></div>;
 }
