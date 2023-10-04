@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 
-type spotifyTracksObj = {
-  name: string;
-  album: { images: [{ url: string }] };
-};
 export default function searchAndRenderSongs({
   token,
   setTrackUri,
@@ -12,10 +8,6 @@ export default function searchAndRenderSongs({
   tracksQuery,
   songsArray,
 }: {
-  itemSearch: never[];
-  searchKey: string;
-  setSearchKey: React.Dispatch<any>;
-  setItemSearch: React.Dispatch<any>;
   token: string | null;
   setTrackUri: React.Dispatch<any | object[]>;
   trackUri: string;
@@ -24,7 +16,7 @@ export default function searchAndRenderSongs({
 }) {
   useEffect(() => {
     const searchItems = async (songsArray: any) => {
-      songsArray.map(async (string: string, index: number) => {
+      songsArray.map(async (songQuery: string, index: number) => {
         try {
           const { data } = await axios.get(
             "https://api.spotify.com/v1/search",
@@ -33,7 +25,7 @@ export default function searchAndRenderSongs({
                 Authorization: `Bearer ${token}`,
               },
               params: {
-                q: string,
+                q: songQuery,
                 type: "track",
               },
             }
