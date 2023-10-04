@@ -13,7 +13,6 @@ export default function Home() {
   const RESPONSE_TYPE = "token";
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
-  const [itemSearch, setItemSearch] = useState<string | any>([]);
   const [artists, setArtists] = useState<string | any>([]);
   const [trackUri, setTrackUri] = useState("");
   const [tracksQuery, setTracksQuery] = useState<string>("");
@@ -86,11 +85,7 @@ export default function Home() {
           artists={artists}
         />
         <SearchAndRenderSongs
-          itemSearch={itemSearch}
           token={token}
-          searchKey={searchKey}
-          setSearchKey={setSearchKey}
-          setItemSearch={setItemSearch}
           setTrackUri={setTrackUri}
           trackUri={trackUri}
           tracksQuery={tracksQuery}
