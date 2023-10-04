@@ -6,7 +6,6 @@ type spotifyTracksObj = {
   album: { images: [{ url: string }] };
 };
 export default function searchAndRenderSongs({
-  setSearchKey,
   token,
   setTrackUri,
   trackUri,
@@ -47,12 +46,12 @@ export default function searchAndRenderSongs({
             ...trackUri,
             data.tracks.items[index].uri,
           ]);
-          console.log(trackUri);
           console.log("song query succesful:", data);
         } catch (error) {
           console.error("Error finding tracks:", error);
         }
       });
+      console.log(trackUri);
     };
     searchItems(songsArray);
   }, [tracksQuery]);
