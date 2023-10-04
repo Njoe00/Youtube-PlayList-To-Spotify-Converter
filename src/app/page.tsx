@@ -58,89 +58,9 @@ export default function Home() {
   const setTrackQuery = async () => {
     await Promise.allSettled(
       songsArray.map(async (string) => {
-        setTracksQuery(string);
+        await setTracksQuery((tracksQuery) => [...tracksQuery, string]);
       })
     );
-  };
-
-  const searchArtists = async (e: any) => {
-    e.preventDefault();
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        q: searchKey,
-        type: "artist",
-      },
-    });
-    setArtists(data.artists.items);
-  };
-
-  const searchTracks = async (e: any) => {
-    e.preventDefault();
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        q: searchKey,
-        type: "track",
-      },
-    });
-    setTracks(data.tracks.items[0].uri);
-    console.log(tracks);
-  };
-
-  const renderArtists = () => {
-    return artists.map((artist) => (
-      <div key={artist.id}>
-        {artist.images.length ? (
-          <img width={"25%"} src={artist.images[0].url} alt="" />
-        ) : (
-          <div>No Image</div>
-        )}
-        {artist.name}
-      </div>
-    ));
-  };
-
-  const searchItems = async (e: any) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.get("https://api.spotify.com/v1/search", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          q: searchKey,
-          type: "track",
-        },
-      });
-      if (data.tracks.items <= 0) {
-        return console.log(`Couldn't find "${searchKey}"`);
-      }
-      setItemSearch(data.tracks.items);
-      console.log("song query succesful:", data);
-    } catch (error) {
-      console.error("Error finding tracks:", error);
-    }
-  };
-
-  const renderTracks = () => {
-    return itemSearch.map((data: spotifyDataObj, id: number) => (
-      <div className="text-orange-600 text-lg" key={id}>
-        {data ? (
-          <>
-            {console.log(data)}
-            <img alt="" width={"25%"} src={data.album.images[0].url} />
-            {data.name}
-          </>
-        ) : (
-          <div> "No Songs Available"</div>
-        )}
-      </div>
-    ));
   };
 
   return (
@@ -169,6 +89,9 @@ export default function Home() {
         />
         <SearchAndRenderSongs
           token={token}
+          searchKey={searchKey}
+          setSearchKey={setSearchKey}
+          setItemSearch={setItemSearch}
           setTrackUri={setTrackUri}
           trackUri={trackUri}
           tracksQuery={tracksQuery}
