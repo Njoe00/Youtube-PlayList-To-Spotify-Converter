@@ -1,11 +1,27 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+interface playListItemObj {
+  snippet: {
+    title: string;
+    thumbnails: {
+      high: {
+        url: string;
+        width: string;
+        height: string;
+      };
+      default: {
+        url: string;
+      };
+    };
+  };
+}
+
 export default function YoutubePlaylistTitles() {
   const API_KEY = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
 
   const [playListId, setPlayListId] = useState("");
-  const [playListItem, setPlayListItem] = useState<string[]>([]);
+  const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
 
   const playListItems = async (e: any) => {
     e.preventDefault();
@@ -33,6 +49,7 @@ export default function YoutubePlaylistTitles() {
     const splitUrl = e.split(breakpoint);
     setPlayListId(splitUrl[1]);
   };
+
   const renderPlayListItems = () => {
     return playListItem.map((title, id) => (
       <li key={id}>
