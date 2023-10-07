@@ -1,11 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-<<<<<<< HEAD
-import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
-
-=======
->>>>>>> d0988e0 (adding mergine conflicts for main file import)
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
 import SearchAndRenderSongs from "../components/searchAndRenderSongs";
 import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
