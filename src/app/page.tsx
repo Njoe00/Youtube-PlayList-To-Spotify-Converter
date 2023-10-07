@@ -1,10 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+<<<<<<< HEAD
 import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
 
+=======
+>>>>>>> d0988e0 (adding mergine conflicts for main file import)
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
 import SearchAndRenderSongs from "../components/searchAndRenderSongs";
+import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
 
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
@@ -52,6 +56,32 @@ export default function Home() {
     window.localStorage.removeItem("token");
   };
 
+  const searchArtists = async (e: any) => {
+    e.preventDefault();
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        q: searchKey,
+        type: "artist",
+      },
+    });
+    setArtists(data.artists.items);
+  };
+
+  const renderArtists = () => {
+    return artists.map((artist) => (
+      <div key={artist.id}>
+        {artist.images.length ? (
+          <img width={"100%"} src={artist.images[0].url} alt="" />
+        ) : (
+          <div>No Image</div>
+        )}
+        {artist.name}
+      </div>
+    ));
+  };
   const setTrackQuery = async () => {
     await Promise.allSettled(
       songsArray.map(async (string) => {
