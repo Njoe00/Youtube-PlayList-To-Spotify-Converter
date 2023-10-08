@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
 import SearchAndRenderSongs from "@/components/searchAndRenderSongs";
 import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
-import Playlist from "./playlist/page";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
