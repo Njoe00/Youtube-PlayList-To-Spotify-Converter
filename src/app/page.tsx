@@ -6,6 +6,25 @@ import SearchAndRenderSongs from "@/components/searchAndRenderSongs";
 import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
 import Playlist from "./playlist/page";
 
+type spotifyDataObj = {
+  album: { images: [{ url: string }] };
+  artists: [];
+  available_markets: [];
+  disc_number: number;
+  duration: number;
+  explicit: boolean;
+  external_ids: object;
+  href: string;
+  id: number;
+  is_local: boolean;
+  name: string;
+  popularity: number;
+  preview_url: null;
+  track_number: number;
+  type: string;
+  uri: string;
+};
+
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
   const REDIRECT_URI = "http://localhost:3000";
@@ -14,18 +33,8 @@ export default function Home() {
   const SCOPE = "playlist-modify-private playlist-modify-public";
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
-  const [itemSearch, setItemSearch] = useState([]);
-  const [artists, setArtists] = useState<string | any>([]);
-  const [trackUri, setTrackUri] = useState("");
-  const [tracksQuery, setTracksQuery] = useState<string>("");
-
-  const songsArray = [
-    "Ai Higuchi “Akuma no Ko” Anime Special Ver",
-    "RADWIMPS - Suzume feat. Toaka [Official Lyric Video]",
-    "070 Shake - Guilty Conscience (Official Video)",
-    "Mariya Takeuchi - Plastic Love (Official Music Video)",
-  ];
-  const [tracks, setTracks] = useState("");
+  const [itemSearch, setItemSearch] = useState<string | any>([]);
+  const [artists, setArtists] = useState<any>([]);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -86,10 +95,11 @@ export default function Home() {
   };
 
   const renderTracks = () => {
-    return itemSearch.map((data, id) => (
+    return itemSearch.map((data: spotifyDataObj, id: number) => (
       <div className="text-orange-600 text-lg" key={id}>
         {data ? (
           <>
+            {console.log(data)}
             <img alt="" width={"25%"} src={data.album.images[0].url} />
             {data.name}
           </>
