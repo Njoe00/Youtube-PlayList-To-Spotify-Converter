@@ -63,6 +63,36 @@ export default function Home() {
     );
   };
 
+  const searchItems = async (e: any) => {
+    e.preventDefault();
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        q: searchKey,
+        type: "track",
+      },
+    });
+    setItemSearch(data.tracks.items);
+  };
+
+  const renderTracks = () => {
+    return itemSearch.map((data, id) => (
+      <div className="text-orange-600 text-lg" key={id}>
+        {data ? (
+          <>
+            <img alt="" width={"25%"} src={data.album.images[0].url} />
+            {data.name}
+            {console.log("hello")}
+          </>
+        ) : (
+          <div> "No Songs Available"</div>
+        )}
+      </div>
+    ));
+  };
+
   return (
     <main className="bg-black h-[1080px] text-orange-400">
       <div className="App">
