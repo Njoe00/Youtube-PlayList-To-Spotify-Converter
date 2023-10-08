@@ -33,6 +33,7 @@ export default function Home() {
   const SCOPE = "playlist-modify-private playlist-modify-public";
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
+  const [itemSearch, setItemSearch] = useState([]);
   const [artists, setArtists] = useState<string | any>([]);
   const [trackUri, setTrackUri] = useState("");
   const [tracksQuery, setTracksQuery] = useState<string>("");
