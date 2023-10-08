@@ -2,10 +2,29 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
-import Playlist from "./playlist/page";
 
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
 import SearchAndRenderSongs from "../components/searchAndRenderSongs";
+import Playlist from "./playlist/page";
+
+type spotifyDataObj = {
+  album: { images: [{ url: string }] };
+  artists: [];
+  available_markets: [];
+  disc_number: number;
+  duration: number;
+  explicit: boolean;
+  external_ids: object;
+  href: string;
+  id: number;
+  is_local: boolean;
+  name: string;
+  popularity: number;
+  preview_url: null;
+  track_number: number;
+  type: string;
+  uri: string;
+};
 
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
@@ -86,10 +105,11 @@ export default function Home() {
   };
 
   const renderTracks = () => {
-    return itemSearch.map((data, id) => (
+    return itemSearch.map((data: spotifyDataObj, id: number) => (
       <div className="text-orange-600 text-lg" key={id}>
         {data ? (
           <>
+            {console.log(data)}
             <img alt="" width={"25%"} src={data.album.images[0].url} />
             {data.name}
           </>
