@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
 import Playlist from "./playlist/page";
 
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
@@ -65,6 +66,8 @@ export default function Home() {
     <main className="bg-black h-[1080px] text-orange-400">
       <div className="App">
         <header className="App-header">
+          <YoutubePlaylistTitles />
+
           <h1>Spotify React</h1>
           {!token ? (
             <a
@@ -85,7 +88,11 @@ export default function Home() {
           artists={artists}
         />
         <SearchAndRenderSongs
+          itemSearch={itemSearch}
           token={token}
+          searchKey={searchKey}
+          setSearchKey={setSearchKey}
+          setItemSearch={setItemSearch}
           setTrackUri={setTrackUri}
           trackUri={trackUri}
           tracksQuery={tracksQuery}
