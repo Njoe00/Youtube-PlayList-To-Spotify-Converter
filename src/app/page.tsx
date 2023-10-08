@@ -4,7 +4,7 @@ import axios from "axios";
 import Playlist from "./playlist/page";
 
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
-import SearchAndRenderSongs from "@/components/searchAndRenderSongs";
+import SearchAndRenderSongs from "../components/searchAndRenderSongs";
 
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
@@ -14,9 +14,17 @@ export default function Home() {
   const SCOPE = "playlist-modify-private playlist-modify-public";
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
-  const [itemSearch, setItemSearch] = useState([]);
-  const [artists, setArtists] = useState([]);
-  const [userId, setuserId] = useState("");
+  const [itemSearch, setItemSearch] = useState<string | any>([]);
+  const [artists, setArtists] = useState<string | any>([]);
+  const [trackUri, setTrackUri] = useState("");
+  const [tracksQuery, setTracksQuery] = useState<string>("");
+
+  const songsArray = [
+    "Ai Higuchi “Akuma no Ko” Anime Special Ver",
+    "RADWIMPS - Suzume feat. Toaka [Official Lyric Video]",
+    "070 Shake - Guilty Conscience (Official Video)",
+    "Mariya Takeuchi - Plastic Love (Official Music Video)",
+  ];
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -46,69 +54,12 @@ export default function Home() {
     window.localStorage.removeItem("token");
   };
 
-  const searchArtists = async (e: any) => {
-    e.preventDefault();
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        q: searchKey,
-        type: "artist",
-      },
-    });
-    setArtists(data.artists.items);
-  };
-
-  const renderArtists = () => {
-    return artists.map((artist) => (
-      <div key={artist.id}>
-        {artist.images.length ? (
-          <img width={"20%"} src={artist.images[0].url} alt="" />
-        ) : (
-          <div>No Image</div>
-        )}
-        {artist.name}
-      </div>
-    ));
-  };
-
-  const searchItems = async (e: any) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.get("https://api.spotify.com/v1/search", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          q: searchKey,
-          type: "track",
-        },
-      });
-      if (data.tracks.items <= 0) {
-        return console.log(`Couldn't find "${searchKey}"`);
-      }
-      setItemSearch(data.tracks.items);
-      console.log("song query succesful:", data);
-    } catch (error) {
-      console.error("Error finding tracks:", error);
-    }
-  };
-
-  const renderTracks = () => {
-    return itemSearch.map((data: spotifyDataObj, id: number) => (
-      <div className="text-orange-600 text-lg" key={id}>
-        {data ? (
-          <>
-            {console.log(data)}
-            <img alt="" width={"25%"} src={data.album.images[0].url} />
-            {data.name}
-          </>
-        ) : (
-          <div> "No Songs Available"</div>
-        )}
-      </div>
-    ));
+  const setTrackQuery = async () => {
+    await Promise.allSettled(
+      songsArray.map(async (string) => {
+        await setTracksQuery((tracksQuery) => [...tracksQuery, string]);
+      })
+    );
   };
 
   return (
@@ -126,6 +77,7 @@ export default function Home() {
             <button onClick={logout}>Logout</button>
           )}
         </header>
+        <button onClick={setTrackQuery}>Click here to pass tracks</button>
         <SearchAndRenderArtists
           setArtists={setArtists}
           setSearchKey={setSearchKey}
@@ -139,6 +91,10 @@ export default function Home() {
           searchKey={searchKey}
           setSearchKey={setSearchKey}
           setItemSearch={setItemSearch}
+          setTrackUri={setTrackUri}
+          trackUri={trackUri}
+          tracksQuery={tracksQuery}
+          songsArray={songsArray}
         />
       </div>
       <Playlist token={token} />
