@@ -4,25 +4,7 @@ import axios from "axios";
 import Playlist from "./playlist/page";
 
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
-
-type spotifyDataObj = {
-  album: { images: [{ url: string }] };
-  artists: [];
-  available_markets: [];
-  disc_number: number;
-  duration: number;
-  explicit: boolean;
-  external_ids: object;
-  href: string;
-  id: number;
-  is_local: boolean;
-  name: string;
-  popularity: number;
-  preview_url: null;
-  track_number: number;
-  type: string;
-  uri: string;
-};
+import SearchAndRenderSongs from "@/components/searchAndRenderSongs";
 
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
@@ -32,14 +14,9 @@ export default function Home() {
   const SCOPE = "playlist-modify-private playlist-modify-public";
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
-<<<<<<< HEAD
   const [itemSearch, setItemSearch] = useState([]);
   const [artists, setArtists] = useState([]);
   const [userId, setuserId] = useState("");
-=======
-  const [itemSearch, setItemSearch] = useState<string | any>([]);
-  const [artists, setArtists] = useState<any>([]);
->>>>>>> 152a3bd (moving git add to root level)
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -69,7 +46,6 @@ export default function Home() {
     window.localStorage.removeItem("token");
   };
 
-<<<<<<< HEAD
   const searchArtists = async (e: any) => {
     e.preventDefault();
     const { data } = await axios.get("https://api.spotify.com/v1/search", {
@@ -97,8 +73,6 @@ export default function Home() {
     ));
   };
 
-=======
->>>>>>> 152a3bd (moving git add to root level)
   const searchItems = async (e: any) => {
     e.preventDefault();
     try {
@@ -159,11 +133,13 @@ export default function Home() {
           searchKey={searchKey}
           artists={artists}
         />
-        <form onSubmit={searchItems}>
-          <input type="text" onChange={(e) => setSearchKey(e.target.value)} />
-          <button type={"submit"}>Search</button>
-        </form>
-        {renderTracks()}
+        <SearchAndRenderSongs
+          itemSearch={itemSearch}
+          token={token}
+          searchKey={searchKey}
+          setSearchKey={setSearchKey}
+          setItemSearch={setItemSearch}
+        />
       </div>
       <Playlist token={token} />
     </main>
