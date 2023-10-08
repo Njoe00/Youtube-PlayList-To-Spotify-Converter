@@ -34,7 +34,16 @@ export default function Home() {
   const [token, setToken] = useState<string | null>("");
   const [searchKey, setSearchKey] = useState("");
   const [itemSearch, setItemSearch] = useState<string | any>([]);
-  const [artists, setArtists] = useState<any>([]);
+  const [artists, setArtists] = useState<string | any>([]);
+  const [trackUri, setTrackUri] = useState("");
+  const [tracksQuery, setTracksQuery] = useState<string>("");
+
+  const songsArray = [
+    "Ai Higuchi “Akuma no Ko” Anime Special Ver",
+    "RADWIMPS - Suzume feat. Toaka [Official Lyric Video]",
+    "070 Shake - Guilty Conscience (Official Video)",
+    "Mariya Takeuchi - Plastic Love (Official Music Video)",
+  ];
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -136,6 +145,9 @@ export default function Home() {
         />
         <SearchAndRenderSongs
           token={token}
+          searchKey={searchKey}
+          setSearchKey={setSearchKey}
+          setItemSearch={setItemSearch}
           setTrackUri={setTrackUri}
           trackUri={trackUri}
           tracksQuery={tracksQuery}
