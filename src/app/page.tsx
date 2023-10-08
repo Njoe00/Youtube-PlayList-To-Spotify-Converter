@@ -35,6 +35,7 @@ export default function Home() {
   const [searchKey, setSearchKey] = useState("");
   const [itemSearch, setItemSearch] = useState([]);
   const [artists, setArtists] = useState<string | any>([]);
+  const [userId, setuserId] = useState("");
   const [trackUri, setTrackUri] = useState("");
   const [tracksQuery, setTracksQuery] = useState<string>("");
 
