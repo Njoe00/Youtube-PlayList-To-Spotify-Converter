@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Playlist from "./playlist/page";
 
 import SearchAndRenderArtists from "../components/searchAndRenderArtists";
 import SearchAndRenderSongs from "@/components/searchAndRenderSongs";
@@ -72,6 +73,32 @@ export default function Home() {
     window.localStorage.removeItem("token");
   };
 
+  const searchArtists = async (e: any) => {
+    e.preventDefault();
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        q: searchKey,
+        type: "artist",
+      },
+    });
+    setArtists(data.artists.items);
+  };
+
+  const renderArtists = () => {
+    return artists.map((artist) => (
+      <div key={artist.id}>
+        {artist.images.length ? (
+          <img width={"100%"} src={artist.images[0].url} alt="" />
+        ) : (
+          <div>No Image</div>
+        )}
+        {artist.name}
+      </div>
+    ));
+  };
   const setTrackQuery = async () => {
     await Promise.allSettled(
       songsArray.map(async (string) => {
