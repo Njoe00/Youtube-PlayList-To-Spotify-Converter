@@ -38,6 +38,7 @@ export default function Home() {
   const [userId, setuserId] = useState("");
   const [trackUri, setTrackUri] = useState("");
   const [tracksQuery, setTracksQuery] = useState<string>("");
+  const [youtubePlaylistTitles, setYoutubePlaylistTitles] = useState([""]);
 
   const songsArray = [
     "Ai Higuchi “Akuma no Ko” Anime Special Ver",
@@ -107,50 +108,13 @@ export default function Home() {
       })
     );
   };
-
-  const searchItems = async (e: any) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.get("https://api.spotify.com/v1/search", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          q: searchKey,
-          type: "track",
-        },
-      });
-      if (data.tracks.items <= 0) {
-        return console.log(`Couldn't find "${searchKey}"`);
-      }
-      setItemSearch(data.tracks.items);
-      console.log("song query succesful:", data);
-    } catch (error) {
-      console.error("Error finding tracks:", error);
-    }
-  };
-
-  const renderTracks = () => {
-    return itemSearch.map((data: spotifyDataObj, id: number) => (
-      <div className="text-orange-600 text-lg" key={id}>
-        {data ? (
-          <>
-            {console.log(data)}
-            <img alt="" width={"25%"} src={data.album.images[0].url} />
-            {data.name}
-          </>
-        ) : (
-          <div> "No Songs Available"</div>
-        )}
-      </div>
-    ));
-  };
-
   return (
     <main className="bg-black h-[1080px] text-orange-400">
       <div className="App">
         <header className="App-header">
-          <YoutubePlaylistTitles />
+          <YoutubePlaylistTitles
+            youtubePlaylistTitles={youtubePlaylistTitles}
+          />
           <h1>Spotify React</h1>
           {!token ? (
             <a
