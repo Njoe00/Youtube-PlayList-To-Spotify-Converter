@@ -38,6 +38,7 @@ export default function Home() {
   const [userId, setuserId] = useState("");
   const [trackUri, setTrackUri] = useState("");
   const [tracksQuery, setTracksQuery] = useState<string>("");
+  const [youtubePlaylistTitles, setYoutubePlaylistTitles] = useState([""]);
 
   const songsArray = [
     "Ai Higuchi “Akuma no Ko” Anime Special Ver",
@@ -107,12 +108,13 @@ export default function Home() {
       })
     );
   };
-
   return (
     <main className="bg-black h-[1080px] text-orange-400">
       <div className="App">
         <header className="App-header">
-          <YoutubePlaylistTitles />
+          <YoutubePlaylistTitles
+            youtubePlaylistTitles={youtubePlaylistTitles}
+          />
           <h1>Spotify React</h1>
           {!token ? (
             <a
@@ -125,28 +127,13 @@ export default function Home() {
           )}
         </header>
         <button onClick={setTrackQuery}>Click here to pass tracks</button>
-        <SearchAndRenderArtists
+        {/* <SearchAndRenderArtists
           setArtists={setArtists}
           setSearchKey={setSearchKey}
           token={token}
           searchKey={searchKey}
           artists={artists}
-        />
-        <SearchAndRenderSongs
-          token={token}
-          setTrackUri={setTrackUri}
-          trackUri={trackUri}
-          tracksQuery={tracksQuery}
-          songsArray={songsArray}
-        />
-        <button onClick={setTrackQuery}>Click here to pass tracks</button>
-        <SearchAndRenderArtists
-          setArtists={setArtists}
-          setSearchKey={setSearchKey}
-          token={token}
-          searchKey={searchKey}
-          artists={artists}
-        />
+        /> */}
         <SearchAndRenderSongs
           token={token}
           setTrackUri={setTrackUri}

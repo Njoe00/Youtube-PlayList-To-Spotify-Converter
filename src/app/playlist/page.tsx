@@ -33,7 +33,7 @@ export default function Playlist({ token }: { token: string | null }) {
         value={playlistName}
         onChange={(e) => setPlaylistName(e.target.value)}
       />
-      <button onClick={createPlaylist}>Create Playlist</button>
+      <button onClick={createPlaylist}>Create Spotify Playlist</button>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 interface playListItemObj {
@@ -17,7 +17,11 @@ interface playListItemObj {
   };
 }
 
-export default function YoutubePlaylistTitles() {
+export default function YoutubePlaylistTitles({
+  youtubePlaylistTitles,
+}: {
+  youtubePlaylistTitles: string[];
+}) {
   const API_KEY = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
 
   const [playListId, setPlayListId] = useState("");
@@ -36,13 +40,22 @@ export default function YoutubePlaylistTitles() {
       })
       .then((response) => {
         setPlayListItem(response.data.items);
-        console.log("line 26", playListItem[0].snippet.title);
-        storeYoutubeTitles();
       })
       .catch((error) => {
         console.error("Error fetching YouTube data:", error);
       });
   };
+
+  useEffect(() => {
+    const storeYoutubeTitles = async () => {
+      for (let i = 0; i < playListItem.length; i++) {
+        youtubePlaylistTitles.push(playListItem[i].snippet.title);
+      }
+      console.log(youtubePlaylistTitles, "line 74");
+      return youtubePlaylistTitles;
+    };
+    storeYoutubeTitles();
+  }, [playListItem]);
 
   const urlSpitter = (e: string) => {
     const breakpoint = /\list=/;
@@ -64,22 +77,14 @@ export default function YoutubePlaylistTitles() {
     ));
   };
 
-  const storeYoutubeTitles = () => {
-    const youtubeTitlesArray = [];
-    for (let i = 0; i < playListItem.length; i++) {
-      youtubeTitlesArray.push(playListItem[i].snippet.title);
-    }
-    return youtubeTitlesArray;
-  };
-
   return (
     <div>
-      <h1>Playlist</h1>
-      <form onSubmit={playListItems}>
+      {/* <h1>Playlist</h1> */}
+      {/* <form onSubmit={playListItems}>
         <input type="text" onChange={(e) => setPlayListId(e.target.value)} />
         <button type={"submit"}>Search</button>
-      </form>
-      <button onClick={renderPlayListItems}>Click here for videos</button>
+      </form> */}
+      {/* <button onClick={renderPlayListItems}>Click here for videos</button> */}
       <h1>Playlist links</h1>
       <form onSubmit={playListItems}>
         <input type="text" onChange={(e) => urlSpitter(e.target.value)} />
