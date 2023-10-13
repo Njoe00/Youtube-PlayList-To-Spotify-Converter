@@ -51,7 +51,6 @@ export default function YoutubePlaylistTitles({
       for (let i = 0; i < playListItem.length; i++) {
         youtubePlaylistTitles.push(playListItem[i].snippet.title);
       }
-      console.log(youtubePlaylistTitles, "line 74");
       return youtubePlaylistTitles;
     };
     storeYoutubeTitles();

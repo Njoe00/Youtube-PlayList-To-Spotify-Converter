@@ -6,13 +6,13 @@ export default function searchAndRenderSongs({
   setTrackUri,
   trackUri,
   tracksQuery,
-  songsArray,
+  youtubePlaylistTitles,
 }: {
   token: string | null;
   setTrackUri: React.Dispatch<any | object[]>;
   trackUri: string;
   tracksQuery: string;
-  songsArray: string[];
+  youtubePlaylistTitles: string[];
 }) {
   useEffect(() => {
     const searchItems = async (songsArray: any) => {
@@ -43,9 +43,9 @@ export default function searchAndRenderSongs({
           console.error("Error finding tracks:", error);
         }
       });
-      console.log(trackUri);
+      console.log(trackUri, "line 46");
     };
-    searchItems(songsArray);
+    searchItems(youtubePlaylistTitles);
   }, [tracksQuery]);
 
   return <div></div>;
