@@ -35,7 +35,7 @@ export default function Home() {
   const [searchKey, setSearchKey] = useState("");
   const [itemSearch, setItemSearch] = useState([]);
   const [artists, setArtists] = useState<string | any>([]);
-  const [userId, setuserId] = useState("");
+  const [tracks, setTracks] = useState("");
   const [trackUri, setTrackUri] = useState("");
   const [tracksQuery, setTracksQuery] = useState<string>("");
   const [youtubePlaylistTitles, setYoutubePlaylistTitles] = useState([]);
@@ -75,12 +75,46 @@ export default function Home() {
     window.localStorage.removeItem("token");
   };
 
-  const setTrackQuery = async () => {
-    await Promise.allSettled(
-      youtubePlaylistTitles.map(async (string) => {
-        setTracksQuery(string);
-      })
-    );
+  const searchArtists = async (e: any) => {
+    e.preventDefault();
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        q: searchKey,
+        type: "artist",
+      },
+    });
+    setArtists(data.artists.items);
+  };
+
+  const searchTracks = async (e: any) => {
+    e.preventDefault();
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        q: searchKey,
+        type: "track",
+      },
+    });
+    setTracks(data.tracks.items[0].uri);
+    console.log(tracks);
+  };
+
+  const renderArtists = () => {
+    return artists.map((artist) => (
+      <div key={artist.id}>
+        {artist.images.length ? (
+          <img width={"20%"} src={artist.images[0].url} alt="" />
+        ) : (
+          <div>No Image</div>
+        )}
+        {artist.name}
+      </div>
+    ));
   };
   return (
     <main className="bg-black h-[1080px] text-orange-400">
@@ -110,7 +144,7 @@ export default function Home() {
           youtubePlaylistTitles={youtubePlaylistTitles}
         />
       </div>
-      <Playlist token={token} />
+      <Playlist token={token} tracks={tracks} />
     </main>
   );
 }

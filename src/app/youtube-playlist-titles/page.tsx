@@ -76,6 +76,17 @@ export default function YoutubePlaylistTitles({
     ));
   };
 
+  const storeYoutubeTitles = () => {
+    const youtubeTitlesArray = [];
+    for (let i = 0; i < playListItem.length; i++) {
+      youtubeTitlesArray.push(playListItem[i].snippet.title);
+    }
+    return youtubeTitlesArray;
+  };
+  const renderVideos = () => {
+    return videos.map((video) => <li key={video.id}>{video.snippet.title}</li>);
+  };
+
   return (
     <div>
       {/* <h1>Playlist</h1> */}
@@ -91,6 +102,12 @@ export default function YoutubePlaylistTitles({
       </form>
       <button onClick={renderPlayListItems}>Click here for titles</button>
       {renderPlayListItems()}
+      <h1>YouTube Videos</h1>
+      <form onSubmit={searchVideos}>
+        <input type="text" onChange={(e) => setSearchQuery(e.target.value)} />
+        <button type={"submit"}>Search</button>
+      </form>
+      <ul></ul>
     </div>
   );
 }
