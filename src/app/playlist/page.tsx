@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function Playlist({
   token,
   tracks,
+  trackUri,
+  passTrackUri,
+  setPassTrackUri,
 }: {
   token: string | null;
   tracks: string;
+  trackUri: string[];
+  passTrackUri: boolean;
+  setPassTrackUri: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [playlistName, setPlaylistName] = useState("");
   const [trackName, setTrackName] = useState("");
@@ -33,24 +39,28 @@ export default function Playlist({
     }
   };
 
-  const addTracksToPlaylist = async () => {
-    try {
-      const response = await axios.post(
-        `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-        { uris: [tracks] },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+  useEffect(() => {
+    const addTracksToPlaylist = async (trackUri: string[]) => {
+      try {
+        const response = await axios.post(
+          `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
+          { uris: trackUri },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      console.log("Songs added:", response);
-    } catch (error) {
-      console.error("Error creating playlist:", error);
-    }
-  };
+        console.log("Songs added:", response);
+      } catch (error) {
+        console.error("Error creating playlist:", error);
+      }
+      setPassTrackUri(false);
+    };
+    addTracksToPlaylist(trackUri);
+  }, [passTrackUri]);
 
   return (
     <div>
@@ -61,15 +71,6 @@ export default function Playlist({
         onChange={(e) => setPlaylistName(e.target.value)}
       />
       <button onClick={createPlaylist}>Create Playlist</button>
-      <div>
-        <input
-          type="text"
-          placeholder="Tracks"
-          value={trackName}
-          onChange={(e) => setTrackName(e.target.value)}
-        />
-        <button onClick={addTracksToPlaylist}>Add tracks</button>
-      </div>
     </div>
   );
 }

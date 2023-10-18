@@ -1,9 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import YoutubePlaylistTitles from "./youtube-playlist-titles/page";
-import SearchAndRenderArtists from "../components/searchAndRenderArtists";
-import SearchAndRenderSongs from "../components/searchAndRenderSongs";
+
 import Playlist from "./playlist/page";
 
 type spotifyDataObj = {
@@ -25,6 +23,22 @@ type spotifyDataObj = {
   uri: string;
 };
 
+interface playListItemObj {
+  snippet: {
+    title: string;
+    thumbnails: {
+      high: {
+        url: string;
+        width: string;
+        height: string;
+      };
+      default: {
+        url: string;
+      };
+    };
+  };
+}
+
 export default function Home() {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
   const REDIRECT_URI = "http://localhost:3000";
@@ -36,16 +50,13 @@ export default function Home() {
   const [itemSearch, setItemSearch] = useState([]);
   const [artists, setArtists] = useState<string | any>([]);
   const [tracks, setTracks] = useState("");
-  const [trackUri, setTrackUri] = useState("");
+  const [trackUri, setTrackUri] = useState<string | any>([]);
   const [tracksQuery, setTracksQuery] = useState<string>("");
   const [youtubePlaylistTitles, setYoutubePlaylistTitles] = useState([]);
-
-  const songsArray = [
-    "Ai Higuchi “Akuma no Ko” Anime Special Ver",
-    "RADWIMPS - Suzume feat. Toaka [Official Lyric Video]",
-    "070 Shake - Guilty Conscience (Official Video)",
-    "Mariya Takeuchi - Plastic Love (Official Music Video)",
-  ];
+  const [passTitles, setPassTitles] = useState(false);
+  const [passTrackUri, setPassTrackUri] = useState(false);
+  const [playListId, setPlayListId] = useState("");
+  const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -75,54 +86,50 @@ export default function Home() {
     window.localStorage.removeItem("token");
   };
 
-  const searchArtists = async (e: any) => {
-    e.preventDefault();
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        q: searchKey,
-        type: "artist",
-      },
-    });
-    setArtists(data.artists.items);
-  };
+  function SearchSpotifyTrack() {
+    youtubePlaylistTitles.map(async (songQuery: string, index: number) => {
+      try {
+        const { data } = await axios.get("https://api.spotify.com/v1/search", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            q: songQuery,
+            type: "track",
+          },
+        });
 
-  const searchTracks = async (e: any) => {
-    e.preventDefault();
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        q: searchKey,
-        type: "track",
-      },
+        if (data.tracks.items === 0) {
+          return console.log(`Couldn't find "${songQuery}"`);
+        }
+        setTrackUri((trackUri: []) => [
+          ...trackUri,
+          data.tracks.items[index].uri,
+        ]);
+        console.log("song query succesful:", data.tracks.items[0].album.name);
+      } catch (error) {
+        console.error("Error finding tracks:", error);
+      }
     });
-    setTracks(data.tracks.items[0].uri);
-    console.log(tracks);
-  };
+    console.log(trackUri, "line 46");
+    setPassTitles(false);
+    setPassTrackUri(true);
+  }
 
-  const renderArtists = () => {
-    return artists.map((artist) => (
-      <div key={artist.id}>
-        {artist.images.length ? (
-          <img width={"20%"} src={artist.images[0].url} alt="" />
-        ) : (
-          <div>No Image</div>
-        )}
-        {artist.name}
-      </div>
-    ));
-  };
   return (
     <main className="bg-black h-[1080px] text-orange-400">
       <div className="App">
         <header className="App-header">
           <YoutubePlaylistTitles
             youtubePlaylistTitles={youtubePlaylistTitles}
+            setPassTitles={setPassTitles}
+            playListItem={playListItem}
+            setPlayListItem={setPlayListItem}
+            playListId={playListId}
+            setPlayListId={setPlayListId}
+            SearchSpotifyTrack={SearchSpotifyTrack}
           />
+
           <h1>Spotify React</h1>
           {!token ? (
             <a
@@ -134,17 +141,127 @@ export default function Home() {
             <button onClick={logout}>Logout</button>
           )}
         </header>
-        <button onClick={setTrackQuery}>Click here to pass tracks</button>
-
-        <SearchAndRenderSongs
-          token={token}
-          setTrackUri={setTrackUri}
-          trackUri={trackUri}
-          tracksQuery={tracksQuery}
-          youtubePlaylistTitles={youtubePlaylistTitles}
-        />
       </div>
-      <Playlist token={token} tracks={tracks} />
+      <Playlist
+        // searchItems={searchItems}
+        token={token}
+        tracks={tracks}
+        trackUri={trackUri}
+        passTrackUri={passTrackUri}
+        setPassTrackUri={setPassTrackUri}
+      />
     </main>
   );
 }
+
+export function YoutubePlaylistTitles({
+  youtubePlaylistTitles,
+  setPassTitles,
+  playListItem,
+  setPlayListItem,
+  playListId,
+  setPlayListId,
+  SearchSpotifyTrack,
+}: {
+  youtubePlaylistTitles: string[];
+  setPassTitles: React.Dispatch<React.SetStateAction<boolean>>;
+  playListItem: playListItemObj[];
+  setPlayListItem: React.Dispatch<React.SetStateAction<playListItemObj[]>>;
+  playListId: string;
+  setPlayListId: React.Dispatch<React.SetStateAction<string>>;
+  SearchSpotifyTrack: () => void;
+}) {
+  const YOUTUBE_API = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
+
+  const playListItems = async (e: any) => {
+    e.preventDefault();
+    await axios
+      .get("https://www.googleapis.com/youtube/v3/playlistItems", {
+        params: {
+          part: "snippet, contentDetails",
+          key: YOUTUBE_API,
+          maxResults: 100,
+          playlistId: playListId,
+        },
+      })
+      .then((response) => {
+        setPlayListItem(response.data.items);
+      })
+      .catch((error) => {
+        console.error("Error fetching YouTube data:", error);
+      });
+  };
+
+  useEffect(() => {
+    const storeYoutubeTitles = async () => {
+      for (let i = 0; i < playListItem.length; i++) {
+        youtubePlaylistTitles.push(playListItem[i].snippet.title);
+      }
+      console.log(youtubePlaylistTitles);
+      SearchSpotifyTrack();
+    };
+    storeYoutubeTitles();
+  }, [playListItem]);
+
+  const urlSpitter = (e: string) => {
+    const breakpoint = /\list=/;
+    const splitUrl = e.split(breakpoint);
+    setPlayListId(splitUrl[1]);
+  };
+
+  return (
+    <div>
+      <h1>Playlist links</h1>
+      <form onSubmit={playListItems}>
+        <input type="text" onChange={(e) => urlSpitter(e.target.value)} />
+        <button type={"submit"}>Search</button>
+      </form>
+    </div>
+  );
+}
+
+// export function searchItems({
+//   token,
+//   setTrackUri,
+//   trackUri,
+//   youtubePlaylistTitles,
+//   setPassTrackUri,
+//   setPassTitles,
+// }: {
+//   token: string | null;
+//   setTrackUri: React.Dispatch<any | object[]>;
+//   trackUri: string[];
+//   tracksQuery: string;
+//   youtubePlaylistTitles: string[];
+//   setPassTrackUri: React.Dispatch<React.SetStateAction<boolean>>;
+//   passTitles: boolean;
+//   setPassTitles: React.Dispatch<React.SetStateAction<boolean>>;
+// }) {
+//   youtubePlaylistTitles.map(async (songQuery: string, index: number) => {
+//     try {
+//       const { data } = await axios.get("https://api.spotify.com/v1/search", {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//         params: {
+//           q: songQuery,
+//           type: "track",
+//         },
+//       });
+
+//       if (data.tracks.items === 0) {
+//         return console.log(`Couldn't find "${songQuery}"`);
+//       }
+//       setTrackUri((trackUri: []) => [
+//         ...trackUri,
+//         data.tracks.items[index].uri,
+//       ]);
+//       console.log("song query succesful:", data.tracks.items[0].album.name);
+//     } catch (error) {
+//       console.error("Error finding tracks:", error);
+//     }
+//   });
+//   console.log(trackUri, "line 46");
+//   setPassTitles(false);
+//   setPassTrackUri(true);
+// }
