@@ -46,17 +46,14 @@ export default function Home() {
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
   const [token, setToken] = useState<string | null>("");
-  const [searchKey, setSearchKey] = useState("");
-  const [itemSearch, setItemSearch] = useState([]);
-  const [artists, setArtists] = useState<string | any>([]);
   const [tracks, setTracks] = useState("");
   const [trackUri, setTrackUri] = useState<string | any>([]);
   const [tracksQuery, setTracksQuery] = useState<string>("");
   const [youtubePlaylistTitles, setYoutubePlaylistTitles] = useState([]);
-  const [passTitles, setPassTitles] = useState(false);
   const [passTrackUri, setPassTrackUri] = useState(false);
   const [playListId, setPlayListId] = useState("");
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
+  const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -86,7 +83,7 @@ export default function Home() {
     window.localStorage.removeItem("token");
   };
 
-  function SearchSpotifyTrack() {
+  async function SearchSpotifyTrack() {
     youtubePlaylistTitles.map(async (songQuery: string, index: number) => {
       try {
         const { data } = await axios.get("https://api.spotify.com/v1/search", {
@@ -111,9 +108,26 @@ export default function Home() {
         console.error("Error finding tracks:", error);
       }
     });
+    addTracksToPlaylist();
     console.log(trackUri, "line 46");
-    setPassTitles(false);
-    setPassTrackUri(true);
+  }
+
+  async function addTracksToPlaylist() {
+    try {
+      const response = await axios.post(
+        `https://api.spotify.com/v1/playlists/${spotifyPlayListId}/tracks`,
+        { uris: trackUri },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("Songs added:", response);
+    } catch (error) {
+      console.error("Error creating playlist:", error);
+    }
   }
 
   return (
@@ -122,7 +136,6 @@ export default function Home() {
         <header className="App-header">
           <YoutubePlaylistTitles
             youtubePlaylistTitles={youtubePlaylistTitles}
-            setPassTitles={setPassTitles}
             playListItem={playListItem}
             setPlayListItem={setPlayListItem}
             playListId={playListId}
@@ -143,12 +156,12 @@ export default function Home() {
         </header>
       </div>
       <Playlist
-        // searchItems={searchItems}
         token={token}
         tracks={tracks}
         trackUri={trackUri}
         passTrackUri={passTrackUri}
         setPassTrackUri={setPassTrackUri}
+        setSpotifyPlayListId={setSpotifyPlayListId}
       />
     </main>
   );
@@ -156,7 +169,6 @@ export default function Home() {
 
 export function YoutubePlaylistTitles({
   youtubePlaylistTitles,
-  setPassTitles,
   playListItem,
   setPlayListItem,
   playListId,
@@ -164,7 +176,6 @@ export function YoutubePlaylistTitles({
   SearchSpotifyTrack,
 }: {
   youtubePlaylistTitles: string[];
-  setPassTitles: React.Dispatch<React.SetStateAction<boolean>>;
   playListItem: playListItemObj[];
   setPlayListItem: React.Dispatch<React.SetStateAction<playListItemObj[]>>;
   playListId: string;
@@ -190,18 +201,16 @@ export function YoutubePlaylistTitles({
       .catch((error) => {
         console.error("Error fetching YouTube data:", error);
       });
+    await storeYoutubeTitles();
   };
 
-  useEffect(() => {
-    const storeYoutubeTitles = async () => {
-      for (let i = 0; i < playListItem.length; i++) {
-        youtubePlaylistTitles.push(playListItem[i].snippet.title);
-      }
-      console.log(youtubePlaylistTitles);
-      SearchSpotifyTrack();
-    };
-    storeYoutubeTitles();
-  }, [playListItem]);
+  const storeYoutubeTitles = async () => {
+    for (let i = 0; i < playListItem.length; i++) {
+      youtubePlaylistTitles.push(playListItem[i].snippet.title);
+    }
+    console.log(youtubePlaylistTitles);
+    SearchSpotifyTrack();
+  };
 
   const urlSpitter = (e: string) => {
     const breakpoint = /\list=/;
@@ -219,49 +228,3 @@ export function YoutubePlaylistTitles({
     </div>
   );
 }
-
-// export function searchItems({
-//   token,
-//   setTrackUri,
-//   trackUri,
-//   youtubePlaylistTitles,
-//   setPassTrackUri,
-//   setPassTitles,
-// }: {
-//   token: string | null;
-//   setTrackUri: React.Dispatch<any | object[]>;
-//   trackUri: string[];
-//   tracksQuery: string;
-//   youtubePlaylistTitles: string[];
-//   setPassTrackUri: React.Dispatch<React.SetStateAction<boolean>>;
-//   passTitles: boolean;
-//   setPassTitles: React.Dispatch<React.SetStateAction<boolean>>;
-// }) {
-//   youtubePlaylistTitles.map(async (songQuery: string, index: number) => {
-//     try {
-//       const { data } = await axios.get("https://api.spotify.com/v1/search", {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//         params: {
-//           q: songQuery,
-//           type: "track",
-//         },
-//       });
-
-//       if (data.tracks.items === 0) {
-//         return console.log(`Couldn't find "${songQuery}"`);
-//       }
-//       setTrackUri((trackUri: []) => [
-//         ...trackUri,
-//         data.tracks.items[index].uri,
-//       ]);
-//       console.log("song query succesful:", data.tracks.items[0].album.name);
-//     } catch (error) {
-//       console.error("Error finding tracks:", error);
-//     }
-//   });
-//   console.log(trackUri, "line 46");
-//   setPassTitles(false);
-//   setPassTrackUri(true);
-// }

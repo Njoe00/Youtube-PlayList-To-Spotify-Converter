@@ -7,16 +7,16 @@ export default function Playlist({
   trackUri,
   passTrackUri,
   setPassTrackUri,
+  setSpotifyPlayListId,
 }: {
   token: string | null;
   tracks: string;
   trackUri: string[];
   passTrackUri: boolean;
   setPassTrackUri: React.Dispatch<React.SetStateAction<boolean>>;
+  setSpotifyPlayListId: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [playlistName, setPlaylistName] = useState("");
-  const [trackName, setTrackName] = useState("");
-  const [playlistId, setPlaylistId] = useState("");
 
   const createPlaylist = async () => {
     try {
@@ -32,35 +32,12 @@ export default function Playlist({
           },
         }
       );
-      setPlaylistId(response.data.id);
+      setSpotifyPlayListId(response.data.id);
       console.log("Playlist created:", response.data);
     } catch (error) {
       console.error("Error creating playlist:", error);
     }
   };
-
-  useEffect(() => {
-    const addTracksToPlaylist = async (trackUri: string[]) => {
-      try {
-        const response = await axios.post(
-          `https://api.spotify.com/v1/playlists/${playlistId}/tracks`,
-          { uris: trackUri },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        console.log("Songs added:", response);
-      } catch (error) {
-        console.error("Error creating playlist:", error);
-      }
-      setPassTrackUri(false);
-    };
-    addTracksToPlaylist(trackUri);
-  }, [passTrackUri]);
 
   return (
     <div>
