@@ -49,12 +49,10 @@ export default function Home() {
   const [tracks, setTracks] = useState("");
   const [trackUri, setTrackUri] = useState<string | any>([]);
   const [tracksQuery, setTracksQuery] = useState<string>("");
-  const [youtubePlaylistTitles, setYoutubePlaylistTitles] = useState([]);
   const [passTrackUri, setPassTrackUri] = useState(false);
-  const [playListId, setPlayListId] = useState("");
+  const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
-
   useEffect(() => {
     const hash = window.location.hash;
     let token: string | null = window.localStorage.getItem("token");
@@ -82,37 +80,44 @@ export default function Home() {
     setToken("");
     window.localStorage.removeItem("token");
   };
+  console.log(token);
 
-  async function SearchSpotifyTrack() {
-    youtubePlaylistTitles.map(async (songQuery: string, index: number) => {
+  async function searchSpotifyTrack(playListItem: [playListItemObj]) {
+    console.log("start fetching songs", playListItem);
+    playListItem.map(async (item: playListItemObj, index: number) => {
+      const itemName = item.snippet.title;
       try {
-        const { data } = await axios.get("https://api.spotify.com/v1/search", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            q: songQuery,
-            type: "track",
-          },
-        });
+        await axios
+          .get("https://api.spotify.com/v1/search", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            params: {
+              q: itemName,
+              type: "track",
+            },
+          })
+          .then((data) => {
+            if (data.data.tracks.items === 0) {
+              console.log(`Couldn't find "${itemName}"`);
+            }
+            console.log(data, "spotify Data");
+            console.log(data.data.tracks.items[index].uri, "spotify URI");
 
-        if (data.tracks.items === 0) {
-          return console.log(`Couldn't find "${songQuery}"`);
-        }
-        setTrackUri((trackUri: []) => [
-          ...trackUri,
-          data.tracks.items[index].uri,
-        ]);
-        console.log("song query succesful:", data.tracks.items[0].album.name);
+            setTrackUri((trackUri: []) => [
+              ...trackUri,
+              data.data.tracks.items[index].uri,
+            ]);
+          });
       } catch (error) {
         console.error("Error finding tracks:", error);
       }
     });
-    addTracksToPlaylist();
-    console.log(trackUri, "line 46");
+    console.log("finish fetching songs");
   }
 
   async function addTracksToPlaylist() {
+    console.log(trackUri, "trackURI");
     try {
       const response = await axios.post(
         `https://api.spotify.com/v1/playlists/${spotifyPlayListId}/tracks`,
@@ -126,7 +131,7 @@ export default function Home() {
       );
       console.log("Songs added:", response);
     } catch (error) {
-      console.error("Error creating playlist:", error);
+      console.error("Error adding songs to playlist:", error);
     }
   }
 
@@ -135,12 +140,12 @@ export default function Home() {
       <div className="App">
         <header className="App-header">
           <YoutubePlaylistTitles
-            youtubePlaylistTitles={youtubePlaylistTitles}
             playListItem={playListItem}
             setPlayListItem={setPlayListItem}
             playListId={playListId}
             setPlayListId={setPlayListId}
-            SearchSpotifyTrack={SearchSpotifyTrack}
+            searchSpotifyTrack={searchSpotifyTrack}
+            addTracksToPlaylist={addTracksToPlaylist}
           />
 
           <h1>Spotify React</h1>
@@ -168,25 +173,24 @@ export default function Home() {
 }
 
 export function YoutubePlaylistTitles({
-  youtubePlaylistTitles,
   playListItem,
   setPlayListItem,
   playListId,
   setPlayListId,
-  SearchSpotifyTrack,
+  searchSpotifyTrack,
+  addTracksToPlaylist,
 }: {
-  youtubePlaylistTitles: string[];
   playListItem: playListItemObj[];
   setPlayListItem: React.Dispatch<React.SetStateAction<playListItemObj[]>>;
-  playListId: string;
-  setPlayListId: React.Dispatch<React.SetStateAction<string>>;
-  SearchSpotifyTrack: () => void;
+  playListId: string | undefined;
+  setPlayListId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  searchSpotifyTrack: any;
+  addTracksToPlaylist: any;
 }) {
   const YOUTUBE_API = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
 
-  const playListItems = async (e: any) => {
-    e.preventDefault();
-    await axios
+  const fetchPlaylist = async () => {
+    const response: any = await axios
       .get("https://www.googleapis.com/youtube/v3/playlistItems", {
         params: {
           part: "snippet, contentDetails",
@@ -195,21 +199,17 @@ export function YoutubePlaylistTitles({
           playlistId: playListId,
         },
       })
-      .then((response) => {
-        setPlayListItem(response.data.items);
-      })
       .catch((error) => {
         console.error("Error fetching YouTube data:", error);
       });
-    await storeYoutubeTitles();
+    return response.data.items;
   };
 
-  const storeYoutubeTitles = async () => {
-    for (let i = 0; i < playListItem.length; i++) {
-      youtubePlaylistTitles.push(playListItem[i].snippet.title);
-    }
-    console.log(youtubePlaylistTitles);
-    SearchSpotifyTrack();
+  const handleClick = async () => {
+    const playlist = await fetchPlaylist();
+    setPlayListItem(playlist);
+    await searchSpotifyTrack(playlist);
+    await addTracksToPlaylist();
   };
 
   const urlSpitter = (e: string) => {
@@ -221,10 +221,11 @@ export function YoutubePlaylistTitles({
   return (
     <div>
       <h1>Playlist links</h1>
-      <form onSubmit={playListItems}>
-        <input type="text" onChange={(e) => urlSpitter(e.target.value)} />
-        <button type={"submit"}>Search</button>
-      </form>
+      <input type="text" onChange={(e) => urlSpitter(e.target.value)} />
+      <button onClick={handleClick}>Search</button>
     </div>
   );
 }
+// curl --request GET \
+//   --url 'https://api.spotify.com/v1/tracks?ids=7ouMYWpwJ422jRcDASZB7P%2C4VqPOruhp5EdPBeR92t6lQ%2C2takcwOaAZWiXQijPHIx7B' \
+//   --header 'Authorization: Bearer BQDiAoyy60v-v-yfRMd899m8WGdtXr5dPh0luaNcFAE1gA2UVprXZYawh1wtNGGEpjRKpKzItpIlnR3QH8jhIlwv28kVySTl6-WzKijz2vataFI2i_jAqXc6YZvs0Wl3RWxNPsvXBXePmRkbab8dj7ppjlUd6ZiRaAYALEruwP6CeCM_QGfbiQ3x1GBMzaqYCJt3qaH0TF3KpmBtSvm1KH2emgyE5Jy568x2k3rdpq7VK4ASzA&token_type'
