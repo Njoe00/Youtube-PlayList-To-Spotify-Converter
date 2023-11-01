@@ -99,10 +99,7 @@ export default function Home() {
       console.log(`Couldn't find "${itemName}"`);
     }
     console.log(data.data.tracks.items[index].uri, "spotify URI");
-    // setTrackUri((trackUri: []) => [
-    //   ...trackUri,
-    //   data.data.tracks.items[index].uri,
-    // ])
+
     return data.data.tracks.items[index].uri;
   };
 
@@ -115,18 +112,24 @@ export default function Home() {
         return await searchSpotifyTrack(itemName, index);
       })
     ).then((data: any) => {
-      setTrackUri((trackUri: []) => [...trackUri, data[0].value]);
+      const tracksUri: any = [];
+      data.map((promiseObj: any) => {
+        tracksUri.push(promiseObj.value);
+      });
+      addTracksToPlaylist(tracksUri);
     });
-
-    console.log("finish fetching songs");
   }
 
-  async function addTracksToPlaylist() {
-    console.log(trackUri, "trackURI");
+  // setTrackUri((trackUri: []) => [
+  //   ...trackUri,
+  //   data.data.tracks.items[index].uri,
+  // ])
+  async function addTracksToPlaylist(tracksUri: any) {
+    console.log(tracksUri, "trackURI");
     try {
       const response = await axios.post(
         `https://api.spotify.com/v1/playlists/${spotifyPlayListId}/tracks`,
-        { uris: trackUri },
+        { uris: tracksUri },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -150,7 +153,6 @@ export default function Home() {
             playListId={playListId}
             setPlayListId={setPlayListId}
             searchSpotifyTracks={searchSpotifyTracks}
-            addTracksToPlaylist={addTracksToPlaylist}
           />
 
           <h1>Spotify React</h1>
@@ -183,14 +185,12 @@ export function YoutubePlaylistTitles({
   playListId,
   setPlayListId,
   searchSpotifyTracks,
-  addTracksToPlaylist,
 }: {
   playListItem: playListItemObj[];
   setPlayListItem: React.Dispatch<React.SetStateAction<playListItemObj[]>>;
   playListId: string | undefined;
   setPlayListId: React.Dispatch<React.SetStateAction<string | undefined>>;
   searchSpotifyTracks: any;
-  addTracksToPlaylist: any;
 }) {
   const YOUTUBE_API = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
 
@@ -214,7 +214,6 @@ export function YoutubePlaylistTitles({
     const playlist = await fetchPlaylist();
     setPlayListItem(playlist);
     await searchSpotifyTracks(playlist);
-    await addTracksToPlaylist();
   };
 
   const urlSpitter = (e: string) => {
