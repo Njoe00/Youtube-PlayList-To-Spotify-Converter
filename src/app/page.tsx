@@ -80,39 +80,44 @@ export default function Home() {
     setToken("");
     window.localStorage.removeItem("token");
   };
-  console.log(token);
 
-  async function searchSpotifyTrack(playListItem: [playListItemObj]) {
+  const searchSpotifyTrack = async (itemName: string, index: number) => {
+    const data: any = await axios
+      .get("https://api.spotify.com/v1/search", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          q: itemName,
+          type: "track",
+        },
+      })
+      .catch((error) => {
+        console.error("Error fetching YouTube data:", error);
+      });
+    if (data.data.tracks.items === 0) {
+      console.log(`Couldn't find "${itemName}"`);
+    }
+    console.log(data.data.tracks.items[index].uri, "spotify URI");
+    // setTrackUri((trackUri: []) => [
+    //   ...trackUri,
+    //   data.data.tracks.items[index].uri,
+    // ])
+    return data.data.tracks.items[index].uri;
+  };
+
+  async function searchSpotifyTracks(playListItem: [playListItemObj]) {
     console.log("start fetching songs", playListItem);
-    playListItem.map(async (item: playListItemObj, index: number) => {
-      const itemName = item.snippet.title;
-      try {
-        await axios
-          .get("https://api.spotify.com/v1/search", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              q: itemName,
-              type: "track",
-            },
-          })
-          .then((data) => {
-            if (data.data.tracks.items === 0) {
-              console.log(`Couldn't find "${itemName}"`);
-            }
-            console.log(data, "spotify Data");
-            console.log(data.data.tracks.items[index].uri, "spotify URI");
 
-            setTrackUri((trackUri: []) => [
-              ...trackUri,
-              data.data.tracks.items[index].uri,
-            ]);
-          });
-      } catch (error) {
-        console.error("Error finding tracks:", error);
-      }
+    await Promise.allSettled(
+      playListItem.map(async (item: playListItemObj, index: number) => {
+        const itemName = item.snippet.title;
+        return await searchSpotifyTrack(itemName, index);
+      })
+    ).then((data: any) => {
+      setTrackUri((trackUri: []) => [...trackUri, data[0].value]);
     });
+
     console.log("finish fetching songs");
   }
 
@@ -144,7 +149,7 @@ export default function Home() {
             setPlayListItem={setPlayListItem}
             playListId={playListId}
             setPlayListId={setPlayListId}
-            searchSpotifyTrack={searchSpotifyTrack}
+            searchSpotifyTracks={searchSpotifyTracks}
             addTracksToPlaylist={addTracksToPlaylist}
           />
 
@@ -177,14 +182,14 @@ export function YoutubePlaylistTitles({
   setPlayListItem,
   playListId,
   setPlayListId,
-  searchSpotifyTrack,
+  searchSpotifyTracks,
   addTracksToPlaylist,
 }: {
   playListItem: playListItemObj[];
   setPlayListItem: React.Dispatch<React.SetStateAction<playListItemObj[]>>;
   playListId: string | undefined;
   setPlayListId: React.Dispatch<React.SetStateAction<string | undefined>>;
-  searchSpotifyTrack: any;
+  searchSpotifyTracks: any;
   addTracksToPlaylist: any;
 }) {
   const YOUTUBE_API = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
@@ -208,7 +213,7 @@ export function YoutubePlaylistTitles({
   const handleClick = async () => {
     const playlist = await fetchPlaylist();
     setPlayListItem(playlist);
-    await searchSpotifyTrack(playlist);
+    await searchSpotifyTracks(playlist);
     await addTracksToPlaylist();
   };
 
@@ -226,6 +231,3 @@ export function YoutubePlaylistTitles({
     </div>
   );
 }
-// curl --request GET \
-//   --url 'https://api.spotify.com/v1/tracks?ids=7ouMYWpwJ422jRcDASZB7P%2C4VqPOruhp5EdPBeR92t6lQ%2C2takcwOaAZWiXQijPHIx7B' \
-//   --header 'Authorization: Bearer BQDiAoyy60v-v-yfRMd899m8WGdtXr5dPh0luaNcFAE1gA2UVprXZYawh1wtNGGEpjRKpKzItpIlnR3QH8jhIlwv28kVySTl6-WzKijz2vataFI2i_jAqXc6YZvs0Wl3RWxNPsvXBXePmRkbab8dj7ppjlUd6ZiRaAYALEruwP6CeCM_QGfbiQ3x1GBMzaqYCJt3qaH0TF3KpmBtSvm1KH2emgyE5Jy568x2k3rdpq7VK4ASzA&token_type'
