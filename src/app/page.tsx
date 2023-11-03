@@ -145,7 +145,7 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-square-pattern h-[1080px] text-orange-400 bg-cover ">
+    <main className="bg-square-pattern h-[1080px] text-orange-400 bg-cover font-serif">
       <div className="bg-gradient-to-b from-white to-purple-200 bg-cover h-[1080px] opacity-[.93]">
         <div className="App">
           <header className="App-header">
