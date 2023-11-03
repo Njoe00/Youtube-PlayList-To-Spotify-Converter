@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import Playlist from "./playlist/page";
+import Header from "./header/page";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -148,6 +149,7 @@ export default function Home() {
       <div className="bg-gradient-to-b from-white to-purple-200 bg-cover h-[1080px] opacity-[.93]">
         <div className="App">
           <header className="App-header">
+            <Header />
             <YoutubePlaylistTitles
               playListItem={playListItem}
               setPlayListItem={setPlayListItem}
