@@ -144,37 +144,39 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-black h-[1080px] text-orange-400">
-      <div className="App">
-        <header className="App-header">
-          <YoutubePlaylistTitles
-            playListItem={playListItem}
-            setPlayListItem={setPlayListItem}
-            playListId={playListId}
-            setPlayListId={setPlayListId}
-            searchSpotifyTracks={searchSpotifyTracks}
-          />
+    <main className="bg-square-pattern h-[1080px] text-orange-400 bg-cover ">
+      <div className="bg-gradient-to-b from-white to-purple-200 bg-cover h-[1080px] opacity-[.93]">
+        <div className="App">
+          <header className="App-header">
+            <YoutubePlaylistTitles
+              playListItem={playListItem}
+              setPlayListItem={setPlayListItem}
+              playListId={playListId}
+              setPlayListId={setPlayListId}
+              searchSpotifyTracks={searchSpotifyTracks}
+            />
 
-          <h1>Spotify React</h1>
-          {!token ? (
-            <a
-              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
-            >
-              Login to Spotify
-            </a>
-          ) : (
-            <button onClick={logout}>Logout</button>
-          )}
-        </header>
+            <h1>Spotify React</h1>
+            {!token ? (
+              <a
+                href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
+              >
+                Login to Spotify
+              </a>
+            ) : (
+              <button onClick={logout}>Logout</button>
+            )}
+          </header>
+        </div>
+        <Playlist
+          token={token}
+          tracks={tracks}
+          trackUri={trackUri}
+          passTrackUri={passTrackUri}
+          setPassTrackUri={setPassTrackUri}
+          setSpotifyPlayListId={setSpotifyPlayListId}
+        />
       </div>
-      <Playlist
-        token={token}
-        tracks={tracks}
-        trackUri={trackUri}
-        passTrackUri={passTrackUri}
-        setPassTrackUri={setPassTrackUri}
-        setSpotifyPlayListId={setSpotifyPlayListId}
-      />
     </main>
   );
 }
