@@ -11,12 +11,20 @@ export default function Header() {
   ];
 
   return (
-    <div className="flex justify-center flex-row w-[1080px] h-10">
-      {headerSections.map((headerSection, index) => (
-        <button className="hover:text-primary-color text-black font-thin px-2.5 h-[49px] text-lg text-center">
-          {headerSection}
-        </button>
-      ))}
+    <div className="flex justify-between items-center flex-row w-screen h-[87px] bg-white z-20 border-b-[1px]">
+      <div className="text-2xl text-black relative font-semibold ml-8">
+        BizBud
+      </div>
+      <div className="flex">
+        {headerSections.map((headerSection, index) => (
+          <button className="hover:text-primary-color text-black font-[280] px-2.5 h-[49px] text-lg">
+            {headerSection}
+          </button>
+        ))}
+      </div>
+      <button className="text-xl bg-primary-color w-[140px] h-[50px] font-light rounded-full mr-10 hover:bg-black ease-in-out">
+        Call Now
+      </button>
     </div>
   );
 }
