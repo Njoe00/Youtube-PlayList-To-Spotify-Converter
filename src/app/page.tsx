@@ -153,14 +153,6 @@ export default function Home() {
         <div className="bg-gradient-to-b from-white to-purple-200 h-screen opacity-[.93]">
           <div className="App">
             <header className="App-header">
-              <YoutubePlaylistTitles
-                playListItem={playListItem}
-                setPlayListItem={setPlayListItem}
-                playListId={playListId}
-                setPlayListId={setPlayListId}
-                searchSpotifyTracks={searchSpotifyTracks}
-              />
-
               <h1>Spotify React</h1>
               {!token ? (
                 <a
@@ -182,6 +174,13 @@ export default function Home() {
             setSpotifyPlayListId={setSpotifyPlayListId}
           />
           <TitleCard />
+          <YoutubePlaylistTitles
+            playListItem={playListItem}
+            setPlayListItem={setPlayListItem}
+            playListId={playListId}
+            setPlayListId={setPlayListId}
+            searchSpotifyTracks={searchSpotifyTracks}
+          />
         </div>
       </main>
     </div>

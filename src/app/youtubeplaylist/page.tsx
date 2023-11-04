@@ -17,6 +17,7 @@ export default function YoutubePlaylistTitles({
   searchSpotifyTracks: any;
 }) {
   const YOUTUBE_API = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
+  const [toggleButton, setToggleButton] = useState(false);
 
   const fetchPlaylist = async () => {
     const response: any = await axios
@@ -46,11 +47,26 @@ export default function YoutubePlaylistTitles({
     setPlayListId(splitUrl[1]);
   };
 
+  const ToggleButtonState = () => {
+    setToggleButton(!toggleButton);
+  };
+
   return (
-    <div>
-      <h1>Playlist links</h1>
-      <input type="text" onChange={(e) => urlSpitter(e.target.value)} />
-      <button onClick={handleClick}>Search</button>
+    <div className="pl-32">
+      {toggleButton ? (
+        <div>
+          <h1>Playlist links</h1>
+          <input type="text" onChange={(e) => urlSpitter(e.target.value)} />
+          <button onClick={handleClick}>Search</button>
+        </div>
+      ) : (
+        <button
+          onClick={ToggleButtonState}
+          className="text-xl m-4 text-white bg-primary-color w-[140px] h-[50px] font-light rounded-full hover:bg-black ease-in-out"
+        >
+          Click Here
+        </button>
+      )}
     </div>
   );
 }

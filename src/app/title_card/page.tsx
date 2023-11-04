@@ -10,9 +10,6 @@ export default function TitleCard() {
       <h2 className="text-xl font-thin w-[300px] p-4">
         Add your playlist link below
       </h2>
-      <button className="text-xl m-4 text-white bg-primary-color w-[140px] h-[50px] font-light rounded-full hover:bg-black ease-in-out">
-        Click Here
-      </button>
     </div>
   );
 }
