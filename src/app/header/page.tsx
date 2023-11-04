@@ -11,7 +11,7 @@ export default function Header() {
   ];
 
   return (
-    <div className="flex justify-between items-center flex-row w-screen h-[87px] bg-white z-20 border-b-[1px]">
+    <div className="flex justify-between items-center flex-row w-screen h-[87px] bg-white z-20 will-change-auto border-b-[1px] fixed">
       <div className="text-2xl text-black relative font-semibold ml-8">
         BizBud
       </div>
@@ -22,7 +22,7 @@ export default function Header() {
           </button>
         ))}
       </div>
-      <button className="text-xl bg-primary-color w-[140px] h-[50px] font-light rounded-full mr-10 hover:bg-black ease-in-out">
+      <button className="text-xl text-white bg-primary-color w-[140px] h-[50px] font-light rounded-full mr-10 hover:bg-black ease-in-out">
         Call Now
       </button>
     </div>

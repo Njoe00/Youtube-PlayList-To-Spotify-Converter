@@ -4,6 +4,8 @@ import axios from "axios";
 
 import Playlist from "./playlist/page";
 import Header from "./header/page";
+import TitleCard from "./title_card/page";
+import YoutubePlaylistTitles from "./youtubeplaylist/page";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -24,7 +26,7 @@ type spotifyDataObj = {
   uri: string;
 };
 
-interface playListItemObj {
+export interface playListItemObj {
   snippet: {
     title: string;
     thumbnails: {
@@ -179,60 +181,9 @@ export default function Home() {
             setPassTrackUri={setPassTrackUri}
             setSpotifyPlayListId={setSpotifyPlayListId}
           />
+          <TitleCard />
         </div>
       </main>
-    </div>
-  );
-}
-
-export function YoutubePlaylistTitles({
-  playListItem,
-  setPlayListItem,
-  playListId,
-  setPlayListId,
-  searchSpotifyTracks,
-}: {
-  playListItem: playListItemObj[];
-  setPlayListItem: React.Dispatch<React.SetStateAction<playListItemObj[]>>;
-  playListId: string | undefined;
-  setPlayListId: React.Dispatch<React.SetStateAction<string | undefined>>;
-  searchSpotifyTracks: any;
-}) {
-  const YOUTUBE_API = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
-
-  const fetchPlaylist = async () => {
-    const response: any = await axios
-      .get("https://www.googleapis.com/youtube/v3/playlistItems", {
-        params: {
-          part: "snippet, contentDetails",
-          key: YOUTUBE_API,
-          maxResults: 100,
-          playlistId: playListId,
-        },
-      })
-      .catch((error) => {
-        console.error("Error fetching YouTube data:", error);
-      });
-    return response.data.items;
-  };
-
-  const handleClick = async () => {
-    const playlist = await fetchPlaylist();
-    setPlayListItem(playlist);
-    await searchSpotifyTracks(playlist);
-  };
-
-  const urlSpitter = (e: string) => {
-    const breakpoint = /\list=/;
-    const splitUrl = e.split(breakpoint);
-    setPlayListId(splitUrl[1]);
-  };
-
-  return (
-    <div>
-      <h1>Playlist links</h1>
-      <input type="text" onChange={(e) => urlSpitter(e.target.value)} />
-      <button onClick={handleClick}>Search</button>
     </div>
   );
 }
