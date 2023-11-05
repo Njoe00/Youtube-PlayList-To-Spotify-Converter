@@ -6,6 +6,7 @@ import Playlist from "./playlist/page";
 import Header from "./header/page";
 import TitleCard from "./title_card/page";
 import YoutubePlaylistTitles from "./youtubeplaylist/page";
+import WaveMusicEffect from "./wave_music_effect/page";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -147,40 +148,42 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <Header />
+    <div className="relative">
+      <div className="App">
+        <Header />
+        <header className="App-header">
+          <h1>Spotify React</h1>
+          {!token ? (
+            <a
+              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
+            >
+              Login to Spotify
+            </a>
+          ) : (
+            <button onClick={logout}>Logout</button>
+          )}
+        </header>
+      </div>
       <main className="bg-square-pattern h-screen w-screen text-orange-400 bg-cover font-serif">
         <div className="bg-gradient-to-b from-white to-purple-200 h-screen opacity-[.93]">
-          <div className="App">
-            <header className="App-header">
-              <h1>Spotify React</h1>
-              {!token ? (
-                <a
-                  href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
-                >
-                  Login to Spotify
-                </a>
-              ) : (
-                <button onClick={logout}>Logout</button>
-              )}
-            </header>
+          <div className="bg-wave-pattern h-full w-full">
+            <Playlist
+              token={token}
+              tracks={tracks}
+              trackUri={trackUri}
+              passTrackUri={passTrackUri}
+              setPassTrackUri={setPassTrackUri}
+              setSpotifyPlayListId={setSpotifyPlayListId}
+            />
+            <TitleCard />
+            <YoutubePlaylistTitles
+              playListItem={playListItem}
+              setPlayListItem={setPlayListItem}
+              playListId={playListId}
+              setPlayListId={setPlayListId}
+              searchSpotifyTracks={searchSpotifyTracks}
+            />
           </div>
-          <Playlist
-            token={token}
-            tracks={tracks}
-            trackUri={trackUri}
-            passTrackUri={passTrackUri}
-            setPassTrackUri={setPassTrackUri}
-            setSpotifyPlayListId={setSpotifyPlayListId}
-          />
-          <TitleCard />
-          <YoutubePlaylistTitles
-            playListItem={playListItem}
-            setPlayListItem={setPlayListItem}
-            playListId={playListId}
-            setPlayListId={setPlayListId}
-            searchSpotifyTracks={searchSpotifyTracks}
-          />
         </div>
       </main>
     </div>

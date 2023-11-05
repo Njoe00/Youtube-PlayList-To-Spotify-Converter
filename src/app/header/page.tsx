@@ -13,7 +13,7 @@ export default function Header() {
   return (
     <div className="flex justify-between items-center flex-row w-screen h-[87px] bg-white z-20 will-change-auto border-b-[1px] fixed">
       <div className="text-2xl text-black relative font-semibold ml-8">
-        BizBud
+        Soundly
       </div>
       <div className="flex">
         {headerSections.map((headerSection, index) => (

@@ -19,6 +19,7 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "square-pattern": "url('/square-pattern.jpg')",
+        "wave-pattern": "url('/layered-waves.svg')",
       },
     },
   },

@@ -52,7 +52,7 @@ export default function YoutubePlaylistTitles({
   };
 
   return (
-    <div className="pl-32">
+    <div className="pl-32 z-40">
       {toggleButton ? (
         <div>
           <h1>Playlist links</h1>
