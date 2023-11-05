@@ -51,7 +51,6 @@ export default function Home() {
   const [token, setToken] = useState<string | null>("");
   const [tracks, setTracks] = useState("");
   const [trackUri, setTrackUri] = useState<string | any>([]);
-  const [tracksQuery, setTracksQuery] = useState<string>("");
   const [passTrackUri, setPassTrackUri] = useState(false);
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
@@ -150,22 +149,22 @@ export default function Home() {
     <div className="relative">
       <div className="App">
         <Header />
-        <header className="App-header">
-          <h1>Spotify React</h1>
-          {!token ? (
-            <a
-              href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
-            >
-              Login to Spotify
-            </a>
-          ) : (
-            <button onClick={logout}>Logout</button>
-          )}
-        </header>
+        <header className="App-header p-10 mt-10 text-red-400 z-50 item-center"></header>
       </div>
       <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
         <div className="bg-gradient-to-b from-white to-purple-200 h-screen opacity-[.93]">
           <div className="bg-wave-pattern h-full w-full">
+            <h1>Spotify React</h1>
+            {!token ? (
+              <a
+                className=""
+                href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
+              >
+                Login to Spotify
+              </a>
+            ) : (
+              <button onClick={logout}>Logout</button>
+            )}
             <Playlist
               token={token}
               tracks={tracks}

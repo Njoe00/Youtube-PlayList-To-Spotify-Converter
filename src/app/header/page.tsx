@@ -17,7 +17,10 @@ export default function Header() {
       </div>
       <div className="flex">
         {headerSections.map((headerSection, index) => (
-          <button className="hover:text-primary-color text-black font-[280] px-2.5 h-[49px] text-lg">
+          <button
+            key={index}
+            className="hover:text-primary-color text-black font-[280] px-2.5 h-[49px] text-lg"
+          >
             {headerSection}
           </button>
         ))}
