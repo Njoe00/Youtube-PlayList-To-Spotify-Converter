@@ -42,7 +42,7 @@ export default function YoutubePlaylistTitles({
     await searchSpotifyTracks(playlist);
   };
 
-  const handleInputChange = (e: string) => {
+  const handleInputChange = (e: any) => {
     urlSpitter(e.target.value);
     setInputValue(e.target.value);
   };
@@ -74,6 +74,7 @@ export default function YoutubePlaylistTitles({
                 inputValue ? "bg-primary-color" : "bg-main-text-color"
               }`}
               onClick={handleClick}
+              disabled={!inputValue}
             >
               Load from URL
             </button>
