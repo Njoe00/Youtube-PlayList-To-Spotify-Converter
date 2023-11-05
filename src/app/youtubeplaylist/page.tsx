@@ -18,6 +18,7 @@ export default function YoutubePlaylistTitles({
 }) {
   const YOUTUBE_API = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
   const [toggleButton, setToggleButton] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   const fetchPlaylist = async () => {
     const response: any = await axios
@@ -41,6 +42,10 @@ export default function YoutubePlaylistTitles({
     await searchSpotifyTracks(playlist);
   };
 
+  const handleInputChange = (e: string) => {
+    urlSpitter(e.target.value);
+    setInputValue(e.target.value);
+  };
   const urlSpitter = (e: string) => {
     const breakpoint = /\list=/;
     const splitUrl = e.split(breakpoint);
@@ -60,10 +65,14 @@ export default function YoutubePlaylistTitles({
             <input
               className="p-4 px-14 mt-2 mr-2 rounded-md"
               type="text"
-              onChange={(e) => urlSpitter(e.target.value)}
+              onChange={handleInputChange}
+              placeholder="Paste Youtube playlist URL here"
+              value={inputValue}
             />
             <button
-              className="m-6 text-xl text-white bg-primary-color w-[300px] h-[40px] font-light rounded-full hover:bg-black ease-in-out flex-row text-center"
+              className={`m-6 text-xl text-white w-[300px] h-[40px] font-light rounded-full ease-in-out flex-row text-center ${
+                inputValue ? "bg-primary-color" : "bg-main-text-color"
+              }`}
               onClick={handleClick}
             >
               Load from URL
