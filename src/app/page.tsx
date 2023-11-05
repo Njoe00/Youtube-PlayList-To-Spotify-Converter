@@ -6,7 +6,6 @@ import Playlist from "./playlist/page";
 import Header from "./header/page";
 import TitleCard from "./title_card/page";
 import YoutubePlaylistTitles from "./youtubeplaylist/page";
-import WaveMusicEffect from "./wave_music_effect/page";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -164,7 +163,7 @@ export default function Home() {
           )}
         </header>
       </div>
-      <main className="bg-square-pattern h-screen w-screen text-orange-400 bg-cover font-serif">
+      <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
         <div className="bg-gradient-to-b from-white to-purple-200 h-screen opacity-[.93]">
           <div className="bg-wave-pattern h-full w-full">
             <Playlist

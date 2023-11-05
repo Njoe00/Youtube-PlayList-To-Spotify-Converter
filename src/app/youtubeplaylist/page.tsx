@@ -52,21 +52,32 @@ export default function YoutubePlaylistTitles({
   };
 
   return (
-    <div className="pl-32 z-40">
-      {toggleButton ? (
-        <div>
-          <h1>Playlist links</h1>
-          <input type="text" onChange={(e) => urlSpitter(e.target.value)} />
-          <button onClick={handleClick}>Search</button>
-        </div>
-      ) : (
-        <button
-          onClick={ToggleButtonState}
-          className="text-xl m-4 text-white bg-primary-color w-[140px] h-[50px] font-light rounded-full hover:bg-black ease-in-out"
-        >
-          Click Here
-        </button>
-      )}
+    <div className="pl-32 z-40 pt-8">
+      <div className="flex">
+        {toggleButton ? (
+          <div className="flex-col flex items-center">
+            <h1>Copy Youtube playlist URL and paste here:</h1>
+            <input
+              className="p-4 px-14 mt-2 mr-2 rounded-md"
+              type="text"
+              onChange={(e) => urlSpitter(e.target.value)}
+            />
+            <button
+              className="m-6 text-xl text-white bg-primary-color w-[300px] h-[40px] font-light rounded-full hover:bg-black ease-in-out flex-row text-center"
+              onClick={handleClick}
+            >
+              Load from URL
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={ToggleButtonState}
+            className="text-xl m-4 text-white bg-primary-color w-[140px] h-[50px] font-light rounded-full hover:bg-black ease-in-out"
+          >
+            Click Here
+          </button>
+        )}
+      </div>
     </div>
   );
 }
