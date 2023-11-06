@@ -5,7 +5,7 @@ export default function LoginCard() {
   const REDIRECT_URI = "http://localhost:3000";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
-  const [email, setEmail] = useState("");
+
   return (
     <div className="flex justify-center pt-10 flex-col">
       <div className="absolute w-[600px] h-[600px] flex justify-center bg-white">
@@ -15,13 +15,6 @@ export default function LoginCard() {
         >
           Login to Spotify
         </a>
-        <div className="h-12 w-[400px] absolute flex">
-          <input
-            value={email}
-            placeholder="Enter your email here"
-            onChange={(ev) => setEmail(ev.target.value)}
-          />
-        </div>
       </div>
     </div>
   );

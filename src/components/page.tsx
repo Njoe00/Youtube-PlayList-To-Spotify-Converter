@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 export default function LoginCard({
   token,
   logout,
 }: {
-  token: string;
+  token: string | null;
   logout: () => void;
 }) {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
@@ -15,19 +15,24 @@ export default function LoginCard({
   const SHOW_DIALOG = "true";
 
   return (
-    <div className="flex justify-center flex-row">
-      <div className="py-[14px] px-[20px] bg-spotfiy-colors flex justify-center text-black text font-sans tracking-wide rounded-full font-bold text-sm">
-        <div>
-          {!token ? (
+    <div className="flex flex-row">
+      <div>
+        {!token ? (
+          <button className="text-xl text-white bg-primary-color w-[200px] h-[50px] font-light rounded-full mr-10 hover:bg-black ease-in-out">
             <a
               href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}&show_dialog=${SHOW_DIALOG}`}
             >
-              LOGIN TO SPOTIFY
+              Login to Spotify
             </a>
-          ) : (
-            <button onClick={logout}>LOGOUT</button>
-          )}
-        </div>
+          </button>
+        ) : (
+          <button
+            className="text-xl text-white bg-primary-color w-[140px] h-[50px] font-light rounded-full mr-10 hover:bg-black ease-in-out"
+            onClick={logout}
+          >
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );

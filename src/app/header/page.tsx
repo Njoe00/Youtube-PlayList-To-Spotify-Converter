@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
+import LoginCard from "@/components/page";
 
-export default function Header() {
+export default function Header({
+  logout,
+  token,
+}: {
+  logout: () => void;
+  token: string | null;
+}) {
   const headerSections = [
     "Home",
     "Services",
@@ -25,9 +32,7 @@ export default function Header() {
           </button>
         ))}
       </div>
-      <button className="text-xl text-white bg-primary-color w-[140px] h-[50px] font-light rounded-full mr-10 hover:bg-black ease-in-out">
-        Call Now
-      </button>
+      <LoginCard token={token} logout={logout} />
     </div>
   );
 }

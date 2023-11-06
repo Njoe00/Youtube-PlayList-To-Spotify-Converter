@@ -6,6 +6,7 @@ import Playlist from "./playlist/page";
 import Header from "./header/page";
 import TitleCard from "./title_card/page";
 import YoutubePlaylistTitles from "./youtubeplaylist/page";
+import LoginCard from "@/components/page";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -149,22 +150,12 @@ export default function Home() {
   return (
     <div className="relative">
       <div className="App">
-        <Header />
-        <header className="App-header p-10 mt-10 text-red-400 z-50 item-center"></header>
+        <Header token={token} logout={logout} />
+        <header className="App-header p-10 text-red-400 z-50 item-center"></header>
       </div>
       <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
         <div className="bg-gradient-to-b from-white to-purple-200 h-screen opacity-[.93]">
           <div className="bg-wave-pattern h-full w-full">
-            {!token ? (
-              <a
-                className=""
-                href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`}
-              >
-                Login to Spotify
-              </a>
-            ) : (
-              <button onClick={logout}>Logout</button>
-            )}
             <TitleCard />
             {spotifyPlayListId ? (
               <YoutubePlaylistTitles
