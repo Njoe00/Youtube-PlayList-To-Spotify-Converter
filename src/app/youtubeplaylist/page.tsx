@@ -40,7 +40,6 @@ export default function YoutubePlaylistTitles({
       });
     return response.data.items;
   };
-  console.log(isLoading);
 
   const handleClick = async () => {
     const playlist = await fetchPlaylist();
@@ -91,7 +90,6 @@ export default function YoutubePlaylistTitles({
                 Load from URL
               </button>
             )}
-
             {isLoading && (
               <l-waveform
                 size="75"

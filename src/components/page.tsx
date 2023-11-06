@@ -13,7 +13,6 @@ export default function LoginCard({
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
   const SHOW_DIALOG = "true";
-  const [email, setEmail] = useState("");
 
   return (
     <div className="flex justify-center flex-row">

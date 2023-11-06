@@ -165,22 +165,25 @@ export default function Home() {
             ) : (
               <button onClick={logout}>Logout</button>
             )}
-            <Playlist
-              token={token}
-              tracks={tracks}
-              trackUri={trackUri}
-              passTrackUri={passTrackUri}
-              setPassTrackUri={setPassTrackUri}
-              setSpotifyPlayListId={setSpotifyPlayListId}
-            />
             <TitleCard />
-            <YoutubePlaylistTitles
-              playListItem={playListItem}
-              setPlayListItem={setPlayListItem}
-              playListId={playListId}
-              setPlayListId={setPlayListId}
-              searchSpotifyTracks={searchSpotifyTracks}
-            />
+            {spotifyPlayListId ? (
+              <YoutubePlaylistTitles
+                playListItem={playListItem}
+                setPlayListItem={setPlayListItem}
+                playListId={playListId}
+                setPlayListId={setPlayListId}
+                searchSpotifyTracks={searchSpotifyTracks}
+              />
+            ) : (
+              <Playlist
+                token={token}
+                tracks={tracks}
+                trackUri={trackUri}
+                passTrackUri={passTrackUri}
+                setPassTrackUri={setPassTrackUri}
+                setSpotifyPlayListId={setSpotifyPlayListId}
+              />
+            )}
           </div>
         </div>
       </main>
