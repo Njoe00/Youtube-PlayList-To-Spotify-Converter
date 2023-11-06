@@ -67,7 +67,7 @@ export default function Playlist({
         {!errorMessage && playlistName.length > 0 && !isLoading && (
           <button
             onClick={createPlaylist}
-            className="text-xl m-4 text-white bg-primary-color w-[250px] h-[50px] font-light rounded-full hover:bg-black ease-in-out"
+            className="text-xl m-4 text-white bg-primary-color w-[250px] h-[50px] font-light rounded-full transition delay-150 duration-200 hover:bg-main-text-color ease-in-out"
           >
             Name Your Playlist{" "}
           </button>

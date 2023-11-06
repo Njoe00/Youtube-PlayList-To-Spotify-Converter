@@ -74,7 +74,7 @@ export default function YoutubePlaylistTitles({
         )}
         {!errorMessage && !isLoading && (
           <button
-            className={`m-6 text-xl text-white w-[300px] h-[40px] font-light rounded-full ease-in-out flex-row text-center ${
+            className={`m-6 text-xl transition delay-150 duration-200 text-white w-[300px] h-[40px] font-light rounded-full ease-in-out flex-row text-center ${
               inputValue ? "bg-primary-color" : "bg-main-text-color"
             }`}
             onClick={handleClick}
