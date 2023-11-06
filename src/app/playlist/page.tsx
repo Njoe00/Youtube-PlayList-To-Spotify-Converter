@@ -49,8 +49,9 @@ export default function Playlist({
   };
 
   return (
-    <div className="pl-32 z-40 pt-2 flex ">
+    <div className="pl-32 z-40 flex ">
       <div className="flex-col items-center flex">
+        <h1>Name your Spotify playlist here:</h1>
         <input
           className="p-4 px-14 mt-2 mr-2 rounded-md text-center"
           type="text"
@@ -72,12 +73,14 @@ export default function Playlist({
           </button>
         )}
         {isLoading && (
-          <l-waveform
-            size="50"
-            stroke="4"
-            speed="2"
-            color="#16163F"
-          ></l-waveform>
+          <div className="m-8">
+            <l-waveform
+              size="50"
+              stroke="4"
+              speed="2"
+              color="#16163F"
+            ></l-waveform>
+          </div>
         )}
       </div>
     </div>
