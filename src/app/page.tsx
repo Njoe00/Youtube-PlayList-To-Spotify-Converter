@@ -55,6 +55,7 @@ export default function Home() {
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
+
   useEffect(() => {
     const hash = window.location.hash;
     let token: string | null = window.localStorage.getItem("token");
@@ -154,7 +155,6 @@ export default function Home() {
       <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
         <div className="bg-gradient-to-b from-white to-purple-200 h-screen opacity-[.93]">
           <div className="bg-wave-pattern h-full w-full">
-            <h1>Spotify React</h1>
             {!token ? (
               <a
                 className=""
