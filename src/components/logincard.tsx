@@ -5,7 +5,7 @@ export default function LoginCard({
   token,
   logout,
 }: {
-  token: string | null;
+  token: string;
   logout: () => void;
 }) {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
