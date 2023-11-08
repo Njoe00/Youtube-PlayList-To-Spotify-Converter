@@ -70,7 +70,7 @@ export default function YoutubePlaylistTitles({
         />
         {errorMessage && inputValue && !isLoading && (
           <div className="text-red-600 m-6 text-base w-[300px] h-[40px] text-center">
-            Sorry, this URL isn't working: {errorMessage}
+            Sorry, this URL isn&apos;t working: {errorMessage}
           </div>
         )}
         {!errorMessage && !isLoading && (
