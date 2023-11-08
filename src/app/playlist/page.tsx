@@ -5,14 +5,12 @@ import { waveform } from "ldrs";
 waveform.register();
 
 export default function Playlist({
-  token,
   tracks,
   trackUri,
   passTrackUri,
   setPassTrackUri,
   setSpotifyPlayListId,
 }: {
-  token: string | null;
   tracks: string;
   trackUri: string[];
   passTrackUri: boolean;
