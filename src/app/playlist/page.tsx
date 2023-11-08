@@ -8,8 +8,8 @@ export default function Playlist({
   setSpotifyPlayListId,
   token,
 }: {
-  setSpotifyPlayListId: React.Dispatch<React.SetStateAction<string>>;
-  token: string | undefined;
+  setSpotifyPlayListId: any;
+  token: string;
 }) {
   const [playlistName, setPlaylistName] = useState("playlist #1");
   const [errorMessage, setErrorMessage] = useState(false);
