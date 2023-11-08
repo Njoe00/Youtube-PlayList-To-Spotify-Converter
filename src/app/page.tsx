@@ -48,7 +48,7 @@ export default function Home() {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
-  const [token, setToken] = useState<string | null>("");
+  const [token, setToken] = useState<string>("");
   const [tracks, setTracks] = useState("");
   const [trackUri, setTrackUri] = useState<string | any>([]);
   const [passTrackUri, setPassTrackUri] = useState(false);
