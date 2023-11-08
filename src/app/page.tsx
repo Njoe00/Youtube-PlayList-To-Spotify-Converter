@@ -43,7 +43,7 @@ export interface playListItemObj {
 }
 
 export default function Home() {
-  const [token1, setToken1] = useState<string | null>("");
+  const [token1, setToken1] = useState<string | null>(null);
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
