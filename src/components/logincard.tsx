@@ -5,8 +5,8 @@ export default function LoginCard({
   token,
   logout,
 }: {
-  token: any;
-  logout: any;
+  token: string | null;
+  logout: () => void;
 }) {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
   const REDIRECT_URI = "http://localhost:3000";

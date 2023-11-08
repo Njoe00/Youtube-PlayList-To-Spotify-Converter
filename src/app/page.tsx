@@ -6,7 +6,6 @@ import Playlist from "./playlist/page";
 import Header from "./header/page";
 import TitleCard from "./title_card/page";
 import YoutubePlaylistTitles from "./youtubeplaylist/page";
-import LoginCard from "@/components/page";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };

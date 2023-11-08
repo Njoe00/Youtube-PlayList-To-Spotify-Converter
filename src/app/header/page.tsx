@@ -1,8 +1,14 @@
 "use client";
 import React from "react";
-import LoginCard from "@/components/page";
+import LoginCard from "@/components/logincard";
 
-export default function Header({ logout, token }: { logout: any; token: any }) {
+export default function Header({
+  logout,
+  token,
+}: {
+  logout: () => void;
+  token: string | null;
+}) {
   const headerSections = [
     "Home",
     "Services",
