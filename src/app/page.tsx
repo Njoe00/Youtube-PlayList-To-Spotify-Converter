@@ -50,9 +50,9 @@ export default function Home() {
 
   useEffect(() => {
     const hash = window.location.hash;
-    let token = window.localStorage.getItem("token");
-    if (!token && hash) {
-      let token = hash
+    let tokens = window.localStorage.getItem("token");
+    if (!tokens && hash) {
+      let tokens = hash
         .substring(1)
         .split("&")
         .find((elem: string) => elem.startsWith("access_token"));
@@ -63,12 +63,12 @@ export default function Home() {
         if (tokenFromHash) {
           window.location.hash = "";
           window.localStorage.setItem("token", tokenFromHash);
-          token = tokenFromHash;
+          tokens = tokenFromHash;
         }
       }
     }
 
-    setToken(token);
+    setToken(tokens);
   }, []);
 
   const logout = () => {
