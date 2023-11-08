@@ -2,7 +2,7 @@
 import React from "react";
 import LoginCard from "@/components/logincard";
 
-export default function Header({}: {}) {
+export default function Header({ logout }: { logout: () => void }) {
   const headerSections = [
     "Home",
     "Services",
@@ -26,7 +26,9 @@ export default function Header({}: {}) {
             </button>
           ))}
         </div>
-        <div>{/* <LoginCard /> */}</div>
+        <div>
+          <LoginCard logout={logout} />
+        </div>
       </div>
     </div>
   );

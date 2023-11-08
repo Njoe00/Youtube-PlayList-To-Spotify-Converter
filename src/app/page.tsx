@@ -43,7 +43,7 @@ export interface playListItemObj {
 }
 
 export default function Home() {
-  const [token1, setToken1] = useState<string | null>(null);
+  const [token1, setToken1] = useState<string | undefined | null>();
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
@@ -72,7 +72,7 @@ export default function Home() {
   }, []);
 
   const logout = () => {
-    setToken1("");
+    setToken1(null);
     window.localStorage.removeItem("token");
   };
 
@@ -141,7 +141,7 @@ export default function Home() {
   return (
     <div className="relative">
       <div className="App">
-        <Header />
+        <Header logout={logout} />
         <header className="App-header p-10 text-red-400 z-50 item-center"></header>
       </div>
       <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
