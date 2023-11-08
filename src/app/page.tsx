@@ -149,7 +149,7 @@ export default function Home() {
   return (
     <div className="relative">
       <div className="App">
-        <Header token={token} />
+        <Header />
         <header className="App-header p-10 text-red-400 z-50 item-center"></header>
       </div>
       <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">

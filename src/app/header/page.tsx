@@ -2,7 +2,7 @@
 import React from "react";
 import LoginCard from "@/components/logincard";
 
-export default function Header({ token }: { token: string | null }) {
+export default function Header({}: {}) {
   const headerSections = [
     "Home",
     "Services",
@@ -26,9 +26,7 @@ export default function Header({ token }: { token: string | null }) {
             </button>
           ))}
         </div>
-        <div>
-          <LoginCard token={token} />
-        </div>
+        <div>{/* <LoginCard /> */}</div>
       </div>
     </div>
   );
