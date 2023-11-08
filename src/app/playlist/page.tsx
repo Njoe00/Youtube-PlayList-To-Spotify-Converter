@@ -9,7 +9,7 @@ export default function Playlist({
   token,
 }: {
   setSpotifyPlayListId: any;
-  token: string;
+  token: string | null | undefined;
 }) {
   const [playlistName, setPlaylistName] = useState("playlist #1");
   const [errorMessage, setErrorMessage] = useState(false);
