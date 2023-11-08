@@ -58,7 +58,7 @@ export default function Home() {
 
   useEffect(() => {
     const hash = window.location.hash;
-    let token: string | null = window.localStorage.getItem("token");
+    let token = window.localStorage.getItem("token");
     if (!token && hash) {
       let token = hash
         .substring(1)

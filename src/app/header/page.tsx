@@ -2,13 +2,7 @@
 import React from "react";
 import LoginCard from "@/components/logincard";
 
-export default function Header({
-  logout,
-  token,
-}: {
-  logout: () => void;
-  token: string | null;
-}) {
+function Header({ logout, token }: { logout: () => void; token: string }) {
   const headerSections = [
     "Home",
     "Services",
