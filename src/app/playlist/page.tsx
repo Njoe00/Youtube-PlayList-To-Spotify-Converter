@@ -9,7 +9,7 @@ export default function Playlist({
   token,
 }: {
   setSpotifyPlayListId: React.Dispatch<React.SetStateAction<string>>;
-  token: string | null;
+  token: string | undefined;
 }) {
   const [playlistName, setPlaylistName] = useState("playlist #1");
   const [errorMessage, setErrorMessage] = useState(false);
