@@ -27,7 +27,7 @@ export default function Header({ logout }: { logout: () => void }) {
           ))}
         </div>
         <div>
-          <LoginCard logout={logout} />
+          <LoginCard />
         </div>
       </div>
     </div>

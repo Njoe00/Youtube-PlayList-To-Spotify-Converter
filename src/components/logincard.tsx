@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-export default function LoginCard({ logout }: { logout: () => void }) {
+export default function LoginCard({}: {}) {
   const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
   const REDIRECT_URI = "http://localhost:3000";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
