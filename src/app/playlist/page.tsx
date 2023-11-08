@@ -5,11 +5,11 @@ import { waveform } from "ldrs";
 waveform.register();
 
 export default function Playlist({
-  setSpotifyPlayListId,
+  // setSpotifyPlayListId,
   token1,
 }: {
-  setSpotifyPlayListId: any;
-  token1: string | null;
+  // setSpotifyPlayListId: any;
+  token1: string | null | undefined;
 }) {
   const [playlistName, setPlaylistName] = useState("playlist #1");
   const [errorMessage, setErrorMessage] = useState(false);
