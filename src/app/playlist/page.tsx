@@ -6,10 +6,10 @@ waveform.register();
 
 export default function Playlist({
   setSpotifyPlayListId,
-  token,
+  token1,
 }: {
   setSpotifyPlayListId: any;
-  token: string | null;
+  token1: string | null;
 }) {
   const [playlistName, setPlaylistName] = useState("playlist #1");
   const [errorMessage, setErrorMessage] = useState(false);
@@ -28,7 +28,7 @@ export default function Playlist({
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token1}`,
             "Content-Type": "application/json",
           },
         }
