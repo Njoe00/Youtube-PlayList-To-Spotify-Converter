@@ -48,7 +48,7 @@ export default function Home() {
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const SCOPE = "playlist-modify-private playlist-modify-public";
-  const [token, setToken] = useState<string>("");
+  const [token, setToken] = useState<string | null>("");
   const [tracks, setTracks] = useState("");
   const [trackUri, setTrackUri] = useState<string | any>([]);
   const [passTrackUri, setPassTrackUri] = useState(false);
@@ -58,7 +58,7 @@ export default function Home() {
 
   useEffect(() => {
     const hash = window.location.hash;
-    let token = window.localStorage.getItem("token");
+    let token: string | null = window.localStorage.getItem("token");
     if (!token && hash) {
       let token = hash
         .substring(1)
@@ -149,7 +149,7 @@ export default function Home() {
   return (
     <div className="relative">
       <div className="App">
-        <Header token={token} logout={logout} />
+        <Header token={token} />
         <header className="App-header p-10 text-red-400 z-50 item-center"></header>
       </div>
       <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
