@@ -43,7 +43,7 @@ export interface playListItemObj {
 }
 
 export default function Home() {
-  const [token, setToken] = useState<string | null>("");
+  const [token1, setToken1] = useState<string | null>("");
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
@@ -68,11 +68,11 @@ export default function Home() {
       }
     }
 
-    setToken(tokens);
+    setToken1(tokens);
   }, []);
 
   const logout = () => {
-    setToken("");
+    setToken1("");
     window.localStorage.removeItem("token");
   };
 
@@ -80,7 +80,7 @@ export default function Home() {
     const data: any = await axios
       .get("https://api.spotify.com/v1/search", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token1}`,
         },
         params: {
           q: itemName,
@@ -127,7 +127,7 @@ export default function Home() {
         { uris: tracksUri },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token1}`,
             "Content-Type": "application/json",
           },
         }
@@ -158,7 +158,7 @@ export default function Home() {
               />
             ) : (
               <Playlist
-                token={token}
+                token={token1}
                 setSpotifyPlayListId={setSpotifyPlayListId}
               />
             )}
