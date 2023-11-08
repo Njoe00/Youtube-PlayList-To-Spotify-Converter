@@ -43,15 +43,7 @@ export interface playListItemObj {
 }
 
 export default function Home() {
-  const CLIENT_ID = "8d24557566154e98abbd389e45758e57";
-  const REDIRECT_URI = "http://localhost:3000";
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
-  const RESPONSE_TYPE = "token";
-  const SCOPE = "playlist-modify-private playlist-modify-public";
   const [token, setToken] = useState<string | null>("");
-  const [tracks, setTracks] = useState("");
-  const [trackUri, setTrackUri] = useState<string | any>([]);
-  const [passTrackUri, setPassTrackUri] = useState(false);
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
@@ -167,10 +159,6 @@ export default function Home() {
             ) : (
               <Playlist
                 token={token}
-                tracks={tracks}
-                trackUri={trackUri}
-                passTrackUri={passTrackUri}
-                setPassTrackUri={setPassTrackUri}
                 setSpotifyPlayListId={setSpotifyPlayListId}
               />
             )}

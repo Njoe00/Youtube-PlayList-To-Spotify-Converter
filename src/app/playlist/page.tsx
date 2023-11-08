@@ -5,16 +5,10 @@ import { waveform } from "ldrs";
 waveform.register();
 
 export default function Playlist({
-  tracks,
-  trackUri,
-  passTrackUri,
-  setPassTrackUri,
   setSpotifyPlayListId,
+  token,
 }: {
-  tracks: string;
-  trackUri: string[];
-  passTrackUri: boolean;
-  setPassTrackUri: React.Dispatch<React.SetStateAction<boolean>>;
+  token: string | null;
   setSpotifyPlayListId: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [playlistName, setPlaylistName] = useState("playlist #1");
