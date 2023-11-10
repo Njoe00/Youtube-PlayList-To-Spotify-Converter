@@ -22,6 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={wix_Madefor_Text.variable}>
+      <script
+        type="module"
+        defer
+        src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/waveform.js"
+      ></script>
+
       <body className={inter.className}>{children}</body>
     </html>
   );
