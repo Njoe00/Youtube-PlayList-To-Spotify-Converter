@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
-// import { waveform } from "ldrs";
-// waveform.register();
+import { waveform } from "ldrs";
 
 import { playListItemObj } from "../app/page";
 
@@ -86,12 +85,12 @@ export default function YoutubePlaylistTitles({
         )}
         {isLoading && (
           <div className="m-8">
-            {/* <l-waveform
+            <l-waveform
               size="50"
               stroke="4"
               speed="2"
               color="#16163F"
-            ></l-waveform> */}
+            ></l-waveform>
           </div>
         )}
       </div>
