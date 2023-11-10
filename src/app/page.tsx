@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import Playlist from "../components/playlist";
 import Header from "../components/header";
 import TitleCard from "../components/titlecard";
+import Playlist from "../components/playlist";
 import YoutubePlaylistTitles from "../components/youtubeplaylist";
 
 type spotifyDataObj = {

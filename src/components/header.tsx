@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import LoginCard from "@/app/components/logincard";
+import LoginCard from "./logincard";
 
 export default function Header({
   logout,
