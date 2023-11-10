@@ -4,7 +4,7 @@ import axios from "axios";
 import { waveform } from "ldrs";
 waveform.register();
 
-import { playListItemObj } from "../app/page";
+import { playListItemObj } from "../page";
 
 export default function YoutubePlaylistTitles({
   playListItem,
