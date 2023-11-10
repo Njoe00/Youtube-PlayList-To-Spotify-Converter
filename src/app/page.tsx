@@ -115,10 +115,6 @@ export default function Home() {
     });
   }
 
-  // setTrackUri((trackUri: []) => [
-  //   ...trackUri,
-  //   data.data.tracks.items[index].uri,
-  // ])
   async function addTracksToPlaylist(tracksUri: any) {
     console.log(tracksUri, "trackURI");
     try {
