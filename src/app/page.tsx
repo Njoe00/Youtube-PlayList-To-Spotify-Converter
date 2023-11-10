@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import Playlist from "./playlist/page";
-import Header from "./header/page";
-import TitleCard from "./title_card/page";
-import YoutubePlaylistTitles from "./youtubeplaylist/page";
+import Playlist from "../components/playlist";
+import Header from "../components/header";
+import TitleCard from "../components/titlecard";
+import YoutubePlaylistTitles from "../components/youtubeplaylist";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -43,16 +43,16 @@ export interface playListItemObj {
 }
 
 export default function Home() {
-  const [token1, setToken1] = useState<string | undefined | null>();
+  const [token, setToken] = useState<string | null>("");
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
 
   useEffect(() => {
     const hash = window.location.hash;
-    let tokens = window.localStorage.getItem("token");
-    if (!tokens && hash) {
-      let tokens = hash
+    let token = window.localStorage.getItem("token");
+    if (!token && hash) {
+      let token = hash
         .substring(1)
         .split("&")
         .find((elem: string) => elem.startsWith("access_token"));
@@ -63,16 +63,16 @@ export default function Home() {
         if (tokenFromHash) {
           window.location.hash = "";
           window.localStorage.setItem("token", tokenFromHash);
-          tokens = tokenFromHash;
+          token = tokenFromHash;
         }
       }
     }
 
-    setToken1(tokens);
+    setToken(token);
   }, []);
 
   const logout = () => {
-    setToken1(null);
+    setToken(null);
     window.localStorage.removeItem("token");
   };
 
@@ -80,7 +80,7 @@ export default function Home() {
     const data: any = await axios
       .get("https://api.spotify.com/v1/search", {
         headers: {
-          Authorization: `Bearer ${token1}`,
+          Authorization: `Bearer ${token}`,
         },
         params: {
           q: itemName,
@@ -127,7 +127,7 @@ export default function Home() {
         { uris: tracksUri },
         {
           headers: {
-            Authorization: `Bearer ${token1}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
@@ -141,7 +141,7 @@ export default function Home() {
   return (
     <div className="relative">
       <div className="App">
-        <Header logout={logout} />
+        <Header logout={logout} token={token} />
         <header className="App-header p-10 text-red-400 z-50 item-center"></header>
       </div>
       <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
@@ -158,7 +158,7 @@ export default function Home() {
               />
             ) : (
               <Playlist
-                token1={token1}
+                token1={token}
                 setSpotifyPlayListId={setSpotifyPlayListId}
               />
             )}
