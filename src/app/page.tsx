@@ -158,7 +158,7 @@ export default function Home() {
               />
             ) : (
               <Playlist
-                token1={token}
+                token={token}
                 setSpotifyPlayListId={setSpotifyPlayListId}
               />
             )}
