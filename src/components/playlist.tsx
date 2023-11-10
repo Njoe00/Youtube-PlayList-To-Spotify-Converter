@@ -5,11 +5,11 @@ import { waveform } from "ldrs";
 waveform.register();
 
 export default function Playlist({
-  // setSpotifyPlayListId,
-  token1,
+  setSpotifyPlayListId,
+  token,
 }: {
-  // setSpotifyPlayListId: any;
-  token1: any;
+  setSpotifyPlayListId: React.Dispatch<React.SetStateAction<string>>;
+  token: string | null;
 }) {
   const [playlistName, setPlaylistName] = useState("playlist #1");
   const [errorMessage, setErrorMessage] = useState(false);
@@ -28,7 +28,7 @@ export default function Playlist({
         },
         {
           headers: {
-            Authorization: `Bearer ${token1}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
