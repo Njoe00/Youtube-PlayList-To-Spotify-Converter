@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Wix_Madefor_Text } from "next/font/google";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,11 +23,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={wix_Madefor_Text.variable}>
-      <script
+      <Script
         type="module"
         defer
         src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/waveform.js"
-      ></script>
+      ></Script>
 
       <body className={inter.className}>{children}</body>
     </html>

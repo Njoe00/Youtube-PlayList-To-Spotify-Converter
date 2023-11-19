@@ -18,7 +18,6 @@ export default function YoutubePlaylistTitles({
   setPlayListId: React.Dispatch<React.SetStateAction<string | undefined>>;
   searchSpotifyTracks: any;
 }) {
-  const YOUTUBE_API = "AIzaSyDPz_HnRfsgRz708I_83usC0VHIdlVMW9k";
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +28,7 @@ export default function YoutubePlaylistTitles({
       .get("https://www.googleapis.com/youtube/v3/playlistItems", {
         params: {
           part: "snippet, contentDetails",
-          key: YOUTUBE_API,
+          key: process.env.YOUTUBE_API_KEY,
           maxResults: 100,
           playlistId: playListId,
         },
