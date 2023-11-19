@@ -136,10 +136,11 @@ export default function Home() {
 
   return (
     <div className="relative">
-      <header>
+      <div className="App">
         <Header logout={logout} token={token} />
-      </header>
-      <div className="bg-square-pattern pt-10 h-screen w-screen text-main-text-color bg-cover font-serif">
+        <header className="App-header p-10"></header>
+      </div>
+      <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
         <div className="bg-gradient-to-b from-white to-purple-200 h-screen opacity-[.93]">
           <div className="bg-wave-pattern h-full w-full">
             <TitleCard />
@@ -159,7 +160,7 @@ export default function Home() {
             )}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
