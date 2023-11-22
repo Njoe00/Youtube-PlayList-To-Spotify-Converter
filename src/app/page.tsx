@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 import Header from "../components/header";
 import TitleCard from "../components/titlecard";
-import Playlist from "../components/playlist";
-import YoutubePlaylistTitles from "../components/youtubeplaylist";
+import MusicCard from "../components/musiccard";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -47,6 +46,12 @@ export default function Home() {
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
+
+  const musicCardRef = useRef();
+
+  const scrollToSection = (ref: any) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -143,24 +148,24 @@ export default function Home() {
       <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
         <div className="bg-gradient-to-b from-white to-purple-200 h-screen opacity-[.93]">
           <div className="bg-wave-pattern h-full w-full">
-            <TitleCard />
-            {spotifyPlayListId ? (
-              <YoutubePlaylistTitles
-                playListItem={playListItem}
-                setPlayListItem={setPlayListItem}
-                playListId={playListId}
-                setPlayListId={setPlayListId}
-                searchSpotifyTracks={searchSpotifyTracks}
-              />
-            ) : (
-              <Playlist
-                token={token}
-                setSpotifyPlayListId={setSpotifyPlayListId}
-              />
-            )}
+            <TitleCard
+              musicCardRef={musicCardRef}
+              scrollToSection={scrollToSection}
+            />
           </div>
         </div>
       </main>
+      <MusicCard
+        musicCardRef={musicCardRef}
+        spotifyPlayListId={spotifyPlayListId}
+        playListItem={playListItem}
+        setPlayListItem={setPlayListItem}
+        playListId={playListId}
+        setPlayListId={setPlayListId}
+        searchSpotifyTracks={searchSpotifyTracks}
+        token={token}
+        setSpotifyPlayListId={setSpotifyPlayListId}
+      />
     </div>
   );
 }

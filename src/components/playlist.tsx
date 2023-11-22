@@ -42,10 +42,10 @@ export default function Playlist({
 
   return (
     <div className="z-40 flex ">
-      <div className="flex-col items-center flex">
+      <div className="flex-col items-center flex w-[635.64px] rounded-md border-main-text-color focus-within:border-primary-color justify-center h-[500px] border-2">
         <h1>Name your Spotify playlist here:</h1>
         <input
-          className="p-4 px-14 mt-2 rounded-md text-center"
+          className="p-4 px-14 mt-2 text-center outline-none border-b-2 border-main-text-color focus:border-primary-color"
           type="text"
           placeholder="Playlist Name"
           value={playlistName}

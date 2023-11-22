@@ -8,6 +8,14 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xxl: "1200px",
+        xl: "1024px",
+        lg: "900px",
+        md: "768px",
+        sm: "576px",
+        xs: "375px",
+      },
       fontFamily: {
         serif: ["var(--sans-serif)"],
       },

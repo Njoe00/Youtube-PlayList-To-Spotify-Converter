@@ -30,9 +30,12 @@ export default function MusicCard({
       ref={musicCardRef as React.RefObject<HTMLDivElement>}
       className="bg-white text-main-text-color w-screen h-screen justify-center flex flex-col items-center"
     >
-      <h2 className="text-xl font-thin flex justify-center flex-row pb-48">
-        Add your playlist link below
-      </h2>
+      <div className="text-center">
+        <h1 className="text-primary-color mb-6">SERVICES</h1>
+        <h2 className="text-4xl font-bold flex justify-center text-center flex-row pb-64">
+          Take Your Music Game To <br /> The Next Level
+        </h2>
+      </div>
       {spotifyPlayListId ? (
         <YoutubePlaylistTitles
           playListItem={playListItem}
