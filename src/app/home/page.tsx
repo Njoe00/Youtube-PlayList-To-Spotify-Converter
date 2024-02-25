@@ -2,9 +2,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
-import Header from "../components/header";
-import TitleCard from "../components/titlecard";
-import MusicCard from "../components/musiccard";
+import Header from "../../components/header";
+import TitleCard from "../../components/titlecard";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -140,32 +139,27 @@ export default function Home() {
   }
 
   return (
-    <div className="relative">
-      <div className="App">
+    <main
+      className="h-full w-full text-main-text-color bg-cover font-serif"
+      style={{ backgroundImage: "url(/square-pattern.jpg)" }}
+    >
+      <div>
         <Header logout={logout} token={token} />
-        <header className="App-header p-10"></header>
+        <header className="App-header"></header>
       </div>
-      <main className="bg-square-pattern h-screen w-screen text-main-text-color bg-cover font-serif">
-        <div className="bg-gradient-to-b from-white to-purple-200 h-screen opacity-[.93]">
-          <div className="bg-wave-pattern h-full w-full">
-            <TitleCard
-              musicCardRef={musicCardRef}
-              scrollToSection={scrollToSection}
-            />
-          </div>
+      <div className="bg-gradient-to-b bg-cover from-white to-purple-200 h-screen opacity-[.93]">
+        <div
+          className="h-full w-full shrink bg-cover"
+          style={{
+            backgroundImage: "url(/layered-waves.svg)",
+          }}
+        >
+          <TitleCard
+            musicCardRef={musicCardRef}
+            scrollToSection={scrollToSection}
+          />
         </div>
-      </main>
-      <MusicCard
-        musicCardRef={musicCardRef}
-        spotifyPlayListId={spotifyPlayListId}
-        playListItem={playListItem}
-        setPlayListItem={setPlayListItem}
-        playListId={playListId}
-        setPlayListId={setPlayListId}
-        searchSpotifyTracks={searchSpotifyTracks}
-        token={token}
-        setSpotifyPlayListId={setSpotifyPlayListId}
-      />
-    </div>
+      </div>
+    </main>
   );
 }

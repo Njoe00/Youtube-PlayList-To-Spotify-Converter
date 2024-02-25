@@ -1,7 +1,7 @@
 import React from "react";
 
-import Playlist from "./playlist";
-import YoutubePlaylistTitles from "./youtubeplaylist";
+import Playlist from "../../components/playlist";
+import YoutubePlaylistTitles from "../../components/youtubeplaylist";
 
 export default function MusicCard({
   playListItem,

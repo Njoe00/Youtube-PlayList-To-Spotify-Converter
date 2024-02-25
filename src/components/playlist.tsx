@@ -6,11 +6,13 @@ import { waveform } from "ldrs";
 export default function Playlist({
   setSpotifyPlayListId,
   token,
+  addTracksToPlaylist,
 }: {
   setSpotifyPlayListId: React.Dispatch<React.SetStateAction<string>>;
   token: string | null;
+  addTracksToPlaylist: any;
 }) {
-  const [playlistName, setPlaylistName] = useState("playlist #1");
+  const [playlistName, setPlaylistName] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

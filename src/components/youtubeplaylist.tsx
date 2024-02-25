@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { waveform } from "ldrs";
 
-import { playListItemObj } from "../app/page";
+import { playListItemObj } from "../app/home/page";
 
 export default function YoutubePlaylistTitles({
   playListItem,
@@ -55,8 +55,8 @@ export default function YoutubePlaylistTitles({
   };
 
   return (
-    <div className="pl-32 z-40 pt-2 flex">
-      <div className="flex-col flex items-center">
+    <div className="pt-2 flex">
+      <div className="flex-col flex items-center text-center">
         <h1>Copy Youtube playlist URL and paste here:</h1>
         <input
           className="p-4 px-14 mt-2 mr-2 rounded-md"

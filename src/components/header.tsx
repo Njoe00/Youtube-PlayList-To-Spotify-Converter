@@ -19,8 +19,8 @@ export default function Header({
   ];
 
   return (
-    <div className="flex flex-row w-full h-[87px] bg-white z-20 will-change-auto border-b-[1px] fixed">
-      <div className="flex text-center items-center justify-between w-full relative">
+    <div className="flex flex-row w-full h-[87px] z-40 bg-white will-change-auto border-b-[1px] shadow-md fixed">
+      <div className="flex text-center items-center justify-between w-full">
         <div className="text-2xl text-black font-semibold ml-8">Soundly</div>
         <div className="text-center flex items-center justify-center">
           {headerSections.map((headerSection, index) => (

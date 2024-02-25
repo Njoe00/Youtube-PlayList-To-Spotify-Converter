@@ -9,8 +9,8 @@ export default function TitleCard({
   musicCardRef: React.RefObject<HTMLElement | undefined>;
 }) {
   return (
-    <div className="flex flex-col font-serif pl-32 pt-10 z-50">
-      <h1 className="text-[90px] text-7xl flex-row font-[1000] h-[205px] w-[640.53px]">
+    <div className="flex flex-col font-serif xl:items-start xl:text-start items-center text-center xl:pl-32 pt-32 z-50">
+      <h1 className="text-[90px] text-7xl flex-row font-[1000] min-h-fit min-w-fit">
         The Power <br />
         of Good Music
       </h1>
