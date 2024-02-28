@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
-import { waveform } from "ldrs";
 
-import { playListItemObj } from "../app/home/page";
+import { playListItemObj } from "../app/page";
 
 export default function YoutubePlaylistTitles({
   playListItem,
@@ -37,6 +36,7 @@ export default function YoutubePlaylistTitles({
       .catch((error) => {
         setErrorMessage(inputValue);
       });
+    console.log(response);
     return response.data.items;
   };
 

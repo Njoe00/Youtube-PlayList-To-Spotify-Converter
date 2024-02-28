@@ -5,20 +5,19 @@ import { waveform } from "ldrs";
 
 export default function Playlist({
   setSpotifyPlayListId,
-  token,
   addTracksToPlaylist,
+  searchParams,
 }: {
   setSpotifyPlayListId: React.Dispatch<React.SetStateAction<string>>;
-  token: string | null;
   addTracksToPlaylist: any;
+  searchParams: {
+    token: string;
+  };
 }) {
   const [playlistName, setPlaylistName] = useState("");
-  const [errorMessage, setErrorMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const createPlaylist = async () => {
     if (playlistName.length === 0) {
-      setErrorMessage(true);
     }
     setIsLoading(true);
     try {
@@ -29,7 +28,7 @@ export default function Playlist({
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${searchParams.token}`,
             "Content-Type": "application/json",
           },
         }
@@ -53,12 +52,12 @@ export default function Playlist({
           value={playlistName}
           onChange={(e) => setPlaylistName(e.target.value)}
         />
-        {errorMessage && playlistName.length === 0 && (
+        {playlistName.length === 0 && (
           <div className="text-red-600 mt-4 text-lg w-[300px] h-[40px] text-center">
             The text box is empty.
           </div>
         )}
-        {!errorMessage && playlistName.length > 0 && !isLoading && (
+        {playlistName.length > 0 && !isLoading && (
           <button
             onClick={createPlaylist}
             className="text-xl m-4 text-white bg-primary-color w-[250px] h-[50px] font-light rounded-full transition delay-150 duration-200 hover:bg-main-text-color ease-in-out"

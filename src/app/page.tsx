@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import Header from "../../components/header";
-import TitleCard from "../../components/titlecard";
+import Header from "../components/header";
+import TitleCard from "../components/titleCard";
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -45,13 +45,6 @@ export default function Home() {
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
-
-  const musicCardRef = useRef();
-
-  const scrollToSection = (ref: any) => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
     const hash = window.location.hash;
     let token = window.localStorage.getItem("token");
@@ -137,7 +130,6 @@ export default function Home() {
       console.error("Error adding songs to playlist:", error);
     }
   }
-
   return (
     <main
       className="h-full w-full text-main-text-color bg-cover font-serif"
@@ -154,10 +146,7 @@ export default function Home() {
             backgroundImage: "url(/layered-waves.svg)",
           }}
         >
-          <TitleCard
-            musicCardRef={musicCardRef}
-            scrollToSection={scrollToSection}
-          />
+          <TitleCard token={token} />
         </div>
       </div>
     </main>

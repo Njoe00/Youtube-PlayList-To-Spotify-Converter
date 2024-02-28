@@ -1,7 +1,7 @@
 import React from "react";
 
 import Playlist from "./playlist";
-import YoutubePlaylistTitles from "./youtubeplaylist";
+import YoutubePlaylistTitles from "./youtubePlaylist";
 
 export default function MusicCard({
   playListItem,
@@ -47,6 +47,7 @@ export default function MusicCard({
         />
       ) : (
         <Playlist
+          searchParams={searchParams}
           addTracksToPlaylist={addTracksToPlaylist}
           token={token}
           setSpotifyPlayListId={setSpotifyPlayListId}
