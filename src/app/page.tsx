@@ -146,7 +146,17 @@ export default function Home() {
             backgroundImage: "url(/layered-waves.svg)",
           }}
         >
-          <TitleCard token={token} />
+          <TitleCard
+            playListItem={playListItem}
+            setPlayListItem={setPlayListItem}
+            setPlayListId={setPlayListId}
+            searchSpotifyTracks={searchSpotifyTracks}
+            setSpotifyPlayListId={setSpotifyPlayListId}
+            playListId={playListId}
+            spotifyPlayListId={spotifyPlayListId}
+            addTracksToPlaylist={addTracksToPlaylist}
+            token={token}
+          />
         </div>
       </div>
     </main>

@@ -4,28 +4,23 @@ import Playlist from "../../components/playlist";
 import YoutubePlaylistTitles from "../../components/youtubePlaylist";
 
 export default function MusicCard({
-  searchParams,
+  token,
+  spotifyPlayListId,
+  playListId,
   playListItem,
   setPlayListItem,
   setPlayListId,
   searchSpotifyTracks,
-  token,
   setSpotifyPlayListId,
-  playListId,
-  spotifyPlayListId,
-  addTracksToPlaylist,
 }: {
-  searchParams: { token: string };
+  token: string;
   spotifyPlayListId: any;
   playListId: any;
   playListItem: any;
   setPlayListItem: any;
   setPlayListId: any;
   searchSpotifyTracks: any;
-  token: any;
   setSpotifyPlayListId: any;
-  musicCardRef: React.RefObject<HTMLElement | undefined>;
-  addTracksToPlaylist: any;
 }) {
   return (
     <div className="bg-white text-main-text-color w-full h-screen justify-center flex flex-col items-center">
@@ -44,12 +39,7 @@ export default function MusicCard({
           searchSpotifyTracks={searchSpotifyTracks}
         />
       ) : (
-        <Playlist
-          searchParams={searchParams}
-          addTracksToPlaylist={addTracksToPlaylist}
-          token={token}
-          setSpotifyPlayListId={setSpotifyPlayListId}
-        />
+        <Playlist token={token} setSpotifyPlayListId={setSpotifyPlayListId} />
       )}
     </div>
   );

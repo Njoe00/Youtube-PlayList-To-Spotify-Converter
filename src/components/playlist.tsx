@@ -4,20 +4,17 @@ import axios from "axios";
 import { waveform } from "ldrs";
 
 export default function Playlist({
+  token,
   setSpotifyPlayListId,
-  addTracksToPlaylist,
-  searchParams,
 }: {
-  setSpotifyPlayListId: React.Dispatch<React.SetStateAction<string>>;
-  addTracksToPlaylist: any;
-  searchParams: {
-    token: string;
-  };
+  token: any;
+  setSpotifyPlayListId: any;
 }) {
-  const [playlistName, setPlaylistName] = useState("");
+  const [playlistName, setPlaylistName] = useState("playlist #1");
   const [isLoading, setIsLoading] = useState(false);
   const createPlaylist = async () => {
-    if (playlistName.length === 0) {
+    if (!playlistName) {
+      return null;
     }
     setIsLoading(true);
     try {
@@ -28,7 +25,7 @@ export default function Playlist({
         },
         {
           headers: {
-            Authorization: `Bearer ${searchParams.token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
@@ -45,6 +42,7 @@ export default function Playlist({
     <div className="z-40 flex ">
       <div className="flex-col items-center flex w-[635.64px] rounded-md border-main-text-color focus-within:border-primary-color justify-center h-[500px] border-2">
         <h1>Name your Spotify playlist here:</h1>
+
         <input
           className="p-4 px-14 mt-2 text-center outline-none border-b-2 border-main-text-color focus:border-primary-color"
           type="text"
@@ -52,19 +50,15 @@ export default function Playlist({
           value={playlistName}
           onChange={(e) => setPlaylistName(e.target.value)}
         />
-        {playlistName.length === 0 && (
-          <div className="text-red-600 mt-4 text-lg w-[300px] h-[40px] text-center">
-            The text box is empty.
-          </div>
-        )}
-        {playlistName.length > 0 && !isLoading && (
-          <button
-            onClick={createPlaylist}
-            className="text-xl m-4 text-white bg-primary-color w-[250px] h-[50px] font-light rounded-full transition delay-150 duration-200 hover:bg-main-text-color ease-in-out"
-          >
-            Name Your Playlist{" "}
-          </button>
-        )}
+
+        <button
+          onClick={createPlaylist}
+          className={`text-xl m-4 text-white bg-primary-color w-64 h-14 font-light rounded-full transition delay-150 duration-200 hover:bg-main-text-color ease-in-out ${
+            !playlistName ? "bg-slate-400 pointer-events-none" : ""
+          }`}
+        >
+          Name Your Playlist
+        </button>
         {isLoading && (
           <div className="m-8">
             <l-waveform
