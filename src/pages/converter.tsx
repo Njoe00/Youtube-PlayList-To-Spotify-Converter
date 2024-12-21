@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
+import "../app/globals.css";
+import { useLocation } from "react-router-dom";
 
-import Playlist from "../../components/playlist";
-import YoutubePlaylistTitles from "../../components/youtubePlaylist";
+import Playlist from "../components/playlist";
+import YoutubePlaylistTitles from "../components/youtubePlaylist";
 
 export default function MusicCard({
   token,
@@ -22,6 +25,8 @@ export default function MusicCard({
   searchSpotifyTracks: any;
   setSpotifyPlayListId: any;
 }) {
+  // const location = useLocation();
+  // const { data } = location.state || {};
   return (
     <div className="bg-white text-main-text-color w-full h-screen justify-center flex flex-col items-center">
       <div className="text-center">

@@ -47,19 +47,19 @@ export default function Home() {
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
   useEffect(() => {
     const hash = window.location.hash;
-    let token = window.localStorage.getItem("token");
-    if (!token && hash) {
+    let token = window.sessionStorage.getItem("token");
+    if (!token) {
       let token = hash
         .substring(1)
         .split("&")
         .find((elem: string) => elem.startsWith("access_token"));
 
-      if (hash) {
+      if (token) {
         const tokenFromHash = hash.split("=")[1];
 
         if (tokenFromHash) {
           window.location.hash = "";
-          window.localStorage.setItem("token", tokenFromHash);
+          window.sessionStorage.setItem("token", tokenFromHash);
           token = tokenFromHash;
         }
       }
@@ -70,7 +70,7 @@ export default function Home() {
 
   const logout = () => {
     setToken(null);
-    window.localStorage.removeItem("token");
+    window.sessionStorage.removeItem("token");
   };
 
   const searchSpotifyTrack = async (itemName: string, index: number) => {

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { playListItemObj } from "../app/page";
+import { playListItemObj } from "../app/home";
 
 export default function YoutubePlaylistTitles({
   playListItem,
