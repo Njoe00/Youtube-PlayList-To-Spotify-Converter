@@ -25,8 +25,6 @@ export default function MusicCard({
   searchSpotifyTracks: any;
   setSpotifyPlayListId: any;
 }) {
-  // const location = useLocation();
-  // const { data } = location.state || {};
   return (
     <div className="bg-white text-main-text-color w-full h-screen justify-center flex flex-col items-center">
       <div className="text-center">

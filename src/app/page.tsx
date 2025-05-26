@@ -45,6 +45,8 @@ export default function Home() {
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
+  const [spotifyUserID, setSpotifyUserID] = useState("");
+
   useEffect(() => {
     const hash = window.location.hash;
     let token = window.sessionStorage.getItem("token");
@@ -61,6 +63,7 @@ export default function Home() {
           window.location.hash = "";
           window.sessionStorage.setItem("token", tokenFromHash);
           token = tokenFromHash;
+          fetchSpotifyUserID();
         }
       }
     }
@@ -71,6 +74,25 @@ export default function Home() {
   const logout = () => {
     setToken(null);
     window.sessionStorage.removeItem("token");
+  };
+
+  const fetchSpotifyUserID = async () => {
+    let token = sessionStorage.getItem("token");
+    const data: any = await axios
+      .get("https://api.spotify.com/v1/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .catch((error) => {
+        console.error("Error fetching User data:", error);
+      });
+    if (!data) {
+      console.log(`ERROR ${data}`);
+    }
+
+    console.log(`User ID ${data.data.id}`);
+    setSpotifyUserID(data.data.id);
   };
 
   const searchSpotifyTrack = async (itemName: string, index: number) => {

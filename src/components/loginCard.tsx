@@ -12,7 +12,8 @@ export default function LoginCard({
   const REDIRECT_URI = "http://localhost:3000";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
-  const SCOPE = "playlist-modify-private playlist-modify-public";
+  const SCOPE =
+    "playlist-modify-private playlist-modify-public user-read-private";
   const SHOW_DIALOG = "true";
 
   return (
