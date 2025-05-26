@@ -45,7 +45,6 @@ export default function Home() {
   const [playListId, setPlayListId] = useState<string>();
   const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
-  const [spotifyUserID, setSpotifyUserID] = useState("");
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -92,7 +91,8 @@ export default function Home() {
     }
 
     console.log(`User ID ${data.data.id}`);
-    setSpotifyUserID(data.data.id);
+    window.location.hash = "";
+    window.sessionStorage.setItem("spotify_ID", data.data.id);
   };
 
   const searchSpotifyTrack = async (itemName: string, index: number) => {

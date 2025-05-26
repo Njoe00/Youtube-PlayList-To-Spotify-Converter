@@ -16,7 +16,7 @@ export default function MusicCard({
   searchSpotifyTracks,
   setSpotifyPlayListId,
 }: {
-  token: string;
+  token: string | null;
   spotifyPlayListId: any;
   playListId: any;
   playListItem: any;

@@ -13,15 +13,18 @@ export default function Playlist({
   const [playlistName, setPlaylistName] = useState("playlist #1");
   const [isLoading, setIsLoading] = useState(false);
   const createPlaylist = async () => {
+    let token = sessionStorage.getItem("token");
+    let spotifyUserID = sessionStorage.getItem("spotify_ID");
     if (!playlistName) {
       return null;
     }
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://api.spotify.com/v1/me/playlists",
+        `https://api.spotify.com/v1/users/${spotifyUserID}/playlists`,
         {
           name: playlistName,
+          pubic: false,
         },
         {
           headers: {
@@ -30,7 +33,6 @@ export default function Playlist({
           },
         }
       );
-      setSpotifyPlayListId(response.data.id);
       console.log("Playlist created:", response.data);
     } catch (error) {
       console.error("Error creating playlist:", error);
