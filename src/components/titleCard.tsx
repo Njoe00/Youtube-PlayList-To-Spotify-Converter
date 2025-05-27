@@ -9,10 +9,7 @@ export default function TitleCard({
   playListId,
   spotifyPlayListId,
   addTracksToPlaylist,
-  spotifyUserID,
-  token,
 }: {
-  token: any;
   playListItem: any;
   setPlayListItem: any;
   setPlayListId: any;
@@ -21,7 +18,6 @@ export default function TitleCard({
   playListId: any;
   spotifyPlayListId: any;
   addTracksToPlaylist: any;
-  spotifyUserID: string | null;
 }) {
   return (
     <div className="flex flex-col font-serif xl:items-start xl:text-start items-center text-center xl:pl-32 pt-32 z-50">
@@ -35,7 +31,6 @@ export default function TitleCard({
           href={{
             pathname: "/converter",
             query: {
-              token: token,
               playListItem: playListItem,
               setPlayListItem: setPlayListItem,
               setPlayListId: setPlayListId,
@@ -44,7 +39,6 @@ export default function TitleCard({
               playListId: playListId,
               spotifyPlayListId: spotifyPlayListId,
               addTracksToPlaylist: addTracksToPlaylist,
-              spotifyUserID: spotifyUserID,
             },
           }}
         >

@@ -12,8 +12,6 @@ export default function MusicCard({
   spotifyPlayListId,
   setSpotifyPlayListId,
   musicCardRef,
-  token,
-  spotifyUserID,
 }: {
   spotifyPlayListId: any;
   playListId: any;
@@ -23,8 +21,6 @@ export default function MusicCard({
   searchSpotifyTracks: any;
   setSpotifyPlayListId: any;
   musicCardRef: React.RefObject<HTMLElement | undefined>;
-  token: any;
-  spotifyUserID: string | null;
 }) {
   return (
     <div
@@ -46,7 +42,7 @@ export default function MusicCard({
           searchSpotifyTracks={searchSpotifyTracks}
         />
       ) : (
-        <Playlist setSpotifyPlayListId={setSpotifyPlayListId} token={token} />
+        <Playlist setSpotifyPlayListId={setSpotifyPlayListId} />
       )}
     </div>
   );
