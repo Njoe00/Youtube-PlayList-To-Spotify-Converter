@@ -177,7 +177,6 @@ export default function Home() {
             playListId={playListId}
             spotifyPlayListId={spotifyPlayListId}
             addTracksToPlaylist={addTracksToPlaylist}
-            token={token}
           />
         </div>
       </div>

@@ -4,10 +4,8 @@ import axios from "axios";
 import { waveform } from "ldrs";
 
 export default function Playlist({
-  token,
   setSpotifyPlayListId,
 }: {
-  token: any;
   setSpotifyPlayListId: any;
 }) {
   const [playlistName, setPlaylistName] = useState("playlist #1");
