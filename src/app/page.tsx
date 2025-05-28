@@ -4,6 +4,11 @@ import axios from "axios";
 
 import Header from "../components/header";
 import TitleCard from "../components/titleCard";
+import { fetchSpotifyUserID } from "../hooks/fetchSpotifyUserID";
+
+if (sessionStorage.getItem("token") !== null) {
+  fetchSpotifyUserID();
+}
 
 type spotifyDataObj = {
   album: { images: [{ url: string }] };
@@ -62,7 +67,6 @@ export default function Home() {
           window.location.hash = "";
           window.sessionStorage.setItem("token", tokenFromHash);
           token = tokenFromHash;
-          fetchSpotifyUserID();
         }
       }
     }
@@ -73,26 +77,6 @@ export default function Home() {
   const logout = () => {
     setToken(null);
     window.sessionStorage.removeItem("token");
-  };
-
-  const fetchSpotifyUserID = async () => {
-    let token = sessionStorage.getItem("token");
-    const data: any = await axios
-      .get("https://api.spotify.com/v1/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .catch((error) => {
-        console.error("Error fetching User data:", error);
-      });
-    if (!data) {
-      console.log(`ERROR ${data}`);
-    }
-
-    console.log(`User ID ${data.data.id}`);
-    window.location.hash = "";
-    window.sessionStorage.setItem("spotify_ID", data.data.id);
   };
 
   const searchSpotifyTrack = async (itemName: string, index: number) => {

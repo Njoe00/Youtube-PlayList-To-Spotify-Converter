@@ -42,7 +42,7 @@ export default function MusicCard({
           searchSpotifyTracks={searchSpotifyTracks}
         />
       ) : (
-        <Playlist token={token} setSpotifyPlayListId={setSpotifyPlayListId} />
+        <Playlist setSpotifyPlayListId={setSpotifyPlayListId} />
       )}
     </div>
   );
