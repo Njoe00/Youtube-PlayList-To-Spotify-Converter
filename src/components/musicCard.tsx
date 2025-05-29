@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Playlist from "./playlist";
 import YoutubePlaylistTitles from "./youtubePlaylist";
@@ -22,6 +22,8 @@ export default function MusicCard({
   setSpotifyPlayListId: any;
   musicCardRef: React.RefObject<HTMLElement | undefined>;
 }) {
+  const [isPlaylistCreated, setIsPlaylistCreated] = useState(false);
+  console.log(isPlaylistCreated);
   return (
     <div
       ref={musicCardRef as React.RefObject<HTMLDivElement>}
@@ -33,16 +35,18 @@ export default function MusicCard({
           Take Your Music Game To <br /> The Next Level
         </h2>
       </div>
-      {spotifyPlayListId ? (
+      {isPlaylistCreated ? (
         <YoutubePlaylistTitles
           playListItem={playListItem}
           setPlayListItem={setPlayListItem}
-          playListId={playListId}
           setPlayListId={setPlayListId}
           searchSpotifyTracks={searchSpotifyTracks}
         />
       ) : (
-        <Playlist setSpotifyPlayListId={setSpotifyPlayListId} />
+        <Playlist
+          isPlaylistCreated={isPlaylistCreated}
+          setIsPlaylistCreated={setIsPlaylistCreated}
+        />
       )}
     </div>
   );

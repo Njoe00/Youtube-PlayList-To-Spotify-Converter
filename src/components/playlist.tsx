@@ -4,9 +4,11 @@ import axios from "axios";
 import { waveform } from "ldrs";
 
 export default function Playlist({
-  setSpotifyPlayListId,
+  setIsPlaylistCreated,
+  isPlaylistCreated,
 }: {
-  setSpotifyPlayListId: any;
+  setIsPlaylistCreated: any;
+  isPlaylistCreated: any;
 }) {
   const [playlistName, setPlaylistName] = useState("playlist #1");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +33,9 @@ export default function Playlist({
           },
         }
       );
+      setIsPlaylistCreated(!isPlaylistCreated);
       console.log("Playlist created:", response.data);
+      sessionStorage.setItem("spotify_playlist_ID", response.data.id);
     } catch (error) {
       console.error("Error creating playlist:", error);
     }

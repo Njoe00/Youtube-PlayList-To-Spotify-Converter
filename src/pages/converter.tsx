@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import "../app/globals.css";
 import { useLocation } from "react-router-dom";
 
@@ -25,6 +25,7 @@ export default function MusicCard({
   searchSpotifyTracks: any;
   setSpotifyPlayListId: any;
 }) {
+  const [isPlaylistCreated, setIsPlaylistCreated] = useState(false);
   return (
     <div className="bg-white text-main-text-color w-full h-screen justify-center flex flex-col items-center">
       <div className="text-center">
@@ -33,16 +34,17 @@ export default function MusicCard({
           Take Your Music Game To <br /> The Next Level
         </h2>
       </div>
-      {spotifyPlayListId ? (
+      {isPlaylistCreated ? (
         <YoutubePlaylistTitles
           playListItem={playListItem}
           setPlayListItem={setPlayListItem}
-          playListId={playListId}
-          setPlayListId={setPlayListId}
           searchSpotifyTracks={searchSpotifyTracks}
         />
       ) : (
-        <Playlist setSpotifyPlayListId={setSpotifyPlayListId} />
+        <Playlist
+          isPlaylistCreated={isPlaylistCreated}
+          setIsPlaylistCreated={setIsPlaylistCreated}
+        />
       )}
     </div>
   );
