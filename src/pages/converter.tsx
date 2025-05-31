@@ -7,23 +7,17 @@ import Playlist from "../components/playlist";
 import YoutubePlaylistTitles from "../components/youtubePlaylist";
 
 export default function MusicCard({
-  token,
   spotifyPlayListId,
   playListId,
   playListItem,
   setPlayListItem,
   setPlayListId,
-  searchSpotifyTracks,
-  setSpotifyPlayListId,
 }: {
-  token: string | null;
   spotifyPlayListId: any;
   playListId: any;
   playListItem: any;
   setPlayListItem: any;
   setPlayListId: any;
-  searchSpotifyTracks: any;
-  setSpotifyPlayListId: any;
 }) {
   const [isPlaylistCreated, setIsPlaylistCreated] = useState(false);
   return (
@@ -35,11 +29,7 @@ export default function MusicCard({
         </h2>
       </div>
       {isPlaylistCreated ? (
-        <YoutubePlaylistTitles
-          playListItem={playListItem}
-          setPlayListItem={setPlayListItem}
-          searchSpotifyTracks={searchSpotifyTracks}
-        />
+        <YoutubePlaylistTitles />
       ) : (
         <Playlist
           isPlaylistCreated={isPlaylistCreated}

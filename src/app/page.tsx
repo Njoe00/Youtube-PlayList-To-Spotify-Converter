@@ -10,7 +10,7 @@ if (sessionStorage.getItem("token") !== null) {
   fetchSpotifyUserID();
 }
 
-type spotifyDataObj = {
+export type spotifyDataObj = {
   album: { images: [{ url: string }] };
   artists: [];
   available_markets: [];
@@ -29,7 +29,7 @@ type spotifyDataObj = {
   uri: string;
 };
 
-export interface playListItemObj {
+export interface playlistItemObj {
   snippet: {
     title: string;
     thumbnails: {
@@ -48,7 +48,7 @@ export interface playListItemObj {
 export default function Home() {
   const [token, setToken] = useState<string | null>("");
   const [playListId, setPlayListId] = useState<string>();
-  const [playListItem, setPlayListItem] = useState<playListItemObj[]>([]);
+  const [playListItem, setPlayListItem] = useState<playlistItemObj[]>([]);
   const [spotifyPlayListId, setSpotifyPlayListId] = useState("");
 
   useEffect(() => {
@@ -79,63 +79,6 @@ export default function Home() {
     window.sessionStorage.removeItem("token");
   };
 
-  const searchSpotifyTrack = async (itemName: string, index: number) => {
-    const data: any = await axios
-      .get("https://api.spotify.com/v1/search", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          q: itemName,
-          type: "track",
-        },
-      })
-      .catch((error) => {
-        console.error("Error fetching YouTube data:", error);
-      });
-    if (data.data.tracks.items === 0) {
-      console.log(`Couldn't find "${itemName}"`);
-    }
-    console.log(data.data.tracks.items[index].uri, "spotify URI");
-
-    return data.data.tracks.items[index].uri;
-  };
-
-  async function searchSpotifyTracks(playListItem: [playListItemObj]) {
-    console.log("start fetching songs", playListItem);
-
-    await Promise.allSettled(
-      playListItem.map(async (item: playListItemObj, index: number) => {
-        const itemName = item.snippet.title;
-        return await searchSpotifyTrack(itemName, index);
-      })
-    ).then((data: any) => {
-      const tracksUri: any = [];
-      data.map((promiseObj: any) => {
-        tracksUri.push(promiseObj.value);
-      });
-      addTracksToPlaylist(tracksUri);
-    });
-  }
-
-  async function addTracksToPlaylist(tracksUri: any) {
-    console.log(tracksUri, "trackURI");
-    try {
-      const response = await axios.post(
-        `https://api.spotify.com/v1/playlists/${spotifyPlayListId}/tracks`,
-        { uris: tracksUri },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Songs added:", response);
-    } catch (error) {
-      console.error("Error adding songs to playlist:", error);
-    }
-  }
   return (
     <main
       className="h-full w-full text-main-text-color bg-cover font-serif"
@@ -156,11 +99,9 @@ export default function Home() {
             playListItem={playListItem}
             setPlayListItem={setPlayListItem}
             setPlayListId={setPlayListId}
-            searchSpotifyTracks={searchSpotifyTracks}
             setSpotifyPlayListId={setSpotifyPlayListId}
             playListId={playListId}
             spotifyPlayListId={spotifyPlayListId}
-            addTracksToPlaylist={addTracksToPlaylist}
           />
         </div>
       </div>

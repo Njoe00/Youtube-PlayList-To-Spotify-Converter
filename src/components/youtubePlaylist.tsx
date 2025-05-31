@@ -2,23 +2,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { playListItemObj } from "../app/page";
+import { playlistItemObj } from "../app/page";
+import { searchSpotifyTracks } from "@/hooks/searchSpotifyTracks";
 
-export default function YoutubePlaylistTitles({
-  playListItem,
-  setPlayListItem,
-  playListId,
-  setPlayListId,
-  searchSpotifyTracks,
-}: {
-  playListItem: playListItemObj[];
-  setPlayListItem: React.Dispatch<React.SetStateAction<playListItemObj[]>>;
-  playListId: string | undefined;
-  setPlayListId: React.Dispatch<React.SetStateAction<string | undefined>>;
-  searchSpotifyTracks: any;
-}) {
+export default function YoutubePlaylistTitles({}: {}) {
   const YOUTUBE_API = process.env.YOUTUBE_API_KEY;
   const [inputValue, setInputValue] = useState("");
+  const [youtubePlaylistID, setYoutubePlaylistID] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,7 +20,7 @@ export default function YoutubePlaylistTitles({
           part: "snippet, contentDetails",
           key: YOUTUBE_API,
           maxResults: 100,
-          playlistId: playListId,
+          playlistId: youtubePlaylistID,
         },
       })
       .catch((error) => {
@@ -42,7 +32,8 @@ export default function YoutubePlaylistTitles({
 
   const handleClick = async () => {
     const playlist = await fetchPlaylist();
-    setPlayListItem(playlist);
+    // setYoutubePlaylistID(playlist);
+    console.log(playlist);
     await searchSpotifyTracks(playlist);
     setIsLoading(false);
   };
@@ -51,9 +42,8 @@ export default function YoutubePlaylistTitles({
     const breakpoint = /\list=/;
     const splitUrl = e.split(breakpoint);
     setInputValue(e);
-    setPlayListId(splitUrl[1]);
+    setYoutubePlaylistID(splitUrl[1]);
   };
-
   return (
     <div className="pt-2 flex">
       <div className="flex-col flex items-center text-center">

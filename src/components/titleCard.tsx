@@ -4,20 +4,16 @@ export default function TitleCard({
   playListItem,
   setPlayListItem,
   setPlayListId,
-  searchSpotifyTracks,
   setSpotifyPlayListId,
   playListId,
   spotifyPlayListId,
-  addTracksToPlaylist,
 }: {
   playListItem: any;
   setPlayListItem: any;
   setPlayListId: any;
-  searchSpotifyTracks: any;
   setSpotifyPlayListId: any;
   playListId: any;
   spotifyPlayListId: any;
-  addTracksToPlaylist: any;
 }) {
   return (
     <div className="flex flex-col font-serif xl:items-start xl:text-start items-center text-center xl:pl-32 pt-32 z-50">
@@ -34,11 +30,9 @@ export default function TitleCard({
               playListItem: playListItem,
               setPlayListItem: setPlayListItem,
               setPlayListId: setPlayListId,
-              searchSpotifyTracks: searchSpotifyTracks,
               setSpotifyPlayListId: setSpotifyPlayListId,
               playListId: playListId,
               spotifyPlayListId: spotifyPlayListId,
-              addTracksToPlaylist: addTracksToPlaylist,
             },
           }}
         >

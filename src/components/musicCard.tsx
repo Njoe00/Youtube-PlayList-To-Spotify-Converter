@@ -23,7 +23,6 @@ export default function MusicCard({
   musicCardRef: React.RefObject<HTMLElement | undefined>;
 }) {
   const [isPlaylistCreated, setIsPlaylistCreated] = useState(false);
-  console.log(isPlaylistCreated);
   return (
     <div
       ref={musicCardRef as React.RefObject<HTMLDivElement>}
@@ -36,12 +35,7 @@ export default function MusicCard({
         </h2>
       </div>
       {isPlaylistCreated ? (
-        <YoutubePlaylistTitles
-          playListItem={playListItem}
-          setPlayListItem={setPlayListItem}
-          setPlayListId={setPlayListId}
-          searchSpotifyTracks={searchSpotifyTracks}
-        />
+        <YoutubePlaylistTitles />
       ) : (
         <Playlist
           isPlaylistCreated={isPlaylistCreated}
