@@ -14,7 +14,6 @@ export const fetchSpotifyUserID = async () => {
   if (!data) {
     console.log(`ERROR ${data}`);
   }
-
   console.log(`User ID ${data.data.id}`);
-  window.sessionStorage.setItem("spotify_ID", data.data.id);
+  localStorage.setItem("spotify_ID", data.data.id);
 };

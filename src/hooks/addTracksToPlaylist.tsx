@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function addTracksToPlaylist(tracksUri: any) {
   console.log(tracksUri, "trackURI");
-  let spotifyPlaylistID = sessionStorage.getItem("spotify_playlist_ID");
+  let spotifyPlaylistID = localStorage.getItem("spotify_playlist_ID");
   let token = sessionStorage.getItem("token");
   try {
     const response = await axios.post(

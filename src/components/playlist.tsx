@@ -14,7 +14,7 @@ export default function Playlist({
   const [isLoading, setIsLoading] = useState(false);
   const createPlaylist = async () => {
     let token = sessionStorage.getItem("token");
-    let spotifyUserID = sessionStorage.getItem("spotify_ID");
+    let spotifyUserID = localStorage.getItem("spotify_ID");
     if (!playlistName) {
       return null;
     }
@@ -35,7 +35,7 @@ export default function Playlist({
       );
       setIsPlaylistCreated(!isPlaylistCreated);
       console.log("Playlist created:", response.data);
-      sessionStorage.setItem("spotify_playlist_ID", response.data.id);
+      localStorage.setItem("spotify_playlist_ID", response.data.id);
     } catch (error) {
       console.error("Error creating playlist:", error);
     }
