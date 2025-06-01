@@ -32,8 +32,6 @@ export default function YoutubePlaylistTitles({}: {}) {
 
   const handleClick = async () => {
     const playlist = await fetchPlaylist();
-    // setYoutubePlaylistID(playlist);
-    console.log(playlist);
     await searchSpotifyTracks(playlist);
     setIsLoading(false);
   };
