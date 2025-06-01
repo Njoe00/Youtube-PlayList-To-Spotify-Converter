@@ -18,6 +18,7 @@ const config: Config = {
       },
       fontFamily: {
         serif: ["var(--sans-serif)"],
+        wix: ["Wix MadeforText", "sans-serif"],
       },
       colors: {
         "primary-color": "#9E3FFD",
